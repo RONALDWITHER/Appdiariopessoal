@@ -44,9 +44,10 @@ class Telainicial extends StatelessWidget {
               leading: const Icon(Icons.exit_to_app),
               title: const Text('Sair'),
               onTap: () {
-                Navigator.pop(
+                Navigator.pop(context); // Fecha o Drawer
+                Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => const Telacadastro()),
+                  MaterialPageRoute(builder: (context) => Telacadastro()),
                 );
               },
             ),
