@@ -52,7 +52,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyB4NdeCjxx4YJQPrwjcKvjOy-RNQsxNq3Y',
-    appId: '1:367849798274:android:f7f29cce479a7af9cd129b',
+    appId: '1:367849798274:android:cdd9e37303d3a22dcd129b',
     messagingSenderId: '367849798274',
     projectId: 'diariopessoal-a32d6',
     storageBucket: 'diariopessoal-a32d6.firebasestorage.app',
@@ -64,6 +64,10 @@ class DefaultFirebaseOptions {
     messagingSenderId: '367849798274',
     projectId: 'diariopessoal-a32d6',
     storageBucket: 'diariopessoal-a32d6.firebasestorage.app',
+    androidClientId:
+        '367849798274-kuo7j99qim50035g7rbcb346fom0pn0b.apps.googleusercontent.com',
+    iosClientId:
+        '367849798274-g203bo72kav9intdus3njbsif6v7rmf9.apps.googleusercontent.com',
     iosBundleId: 'com.example.appdiario',
   );
 
@@ -73,6 +77,10 @@ class DefaultFirebaseOptions {
     messagingSenderId: '367849798274',
     projectId: 'diariopessoal-a32d6',
     storageBucket: 'diariopessoal-a32d6.firebasestorage.app',
+    androidClientId:
+        '367849798274-kuo7j99qim50035g7rbcb346fom0pn0b.apps.googleusercontent.com',
+    iosClientId:
+        '367849798274-g203bo72kav9intdus3njbsif6v7rmf9.apps.googleusercontent.com',
     iosBundleId: 'com.example.appdiario',
   );
 

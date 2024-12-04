@@ -1,4 +1,4 @@
-import 'package:appdiario/telacadastro.dart';
+import 'package:appdiario/paginas/telacadastro.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
