@@ -1,7 +1,6 @@
 import 'package:appdiario/paginas/telaDeLogin.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:appdiario/paginas/telainicial.dart';
 
 class Telacadastro extends StatefulWidget {
@@ -35,59 +34,18 @@ class _TelacadastroState extends State<Telacadastro> {
     }
   }
 
-  Future<void> _signInWithEmail() async {
-    try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim(),
-      );
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => Telainicial()),
-      );
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Erro ao fazer login: $e")),
-      );
-    }
-  }
-
   final _nameController = TextEditingController();
-
-  Future<void> _signInWithGoogle() async {
-    try {
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-      if (googleUser == null) return;
-
-      final GoogleSignInAuthentication googleAuth =
-          await googleUser.authentication;
-
-      final AuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
-      );
-
-      await FirebaseAuth.instance.signInWithCredential(credential);
-
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => Telainicial()),
-      );
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Erro ao fazer login: $e")),
-      );
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Center(
+      body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(15.0),
           child: Column(
             children: [
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
               Image.asset(
                 'assets/imagens/life.png',
                 height: 330,
@@ -104,7 +62,7 @@ class _TelacadastroState extends State<Telacadastro> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
+                      const Text(
                         'Cadastrar',
                         style: TextStyle(
                             fontSize: 30,
@@ -114,36 +72,43 @@ class _TelacadastroState extends State<Telacadastro> {
                       Flexible(
                           child: TextField(
                         controller: _nameController,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: "Usuario",
                           hintText: "Fulano De tal",
+                          hintStyle: TextStyle(
+                              color: Color.fromARGB(151, 103, 103, 104)),
                         ),
                       )),
-                      SizedBox(height: 15),
+                      const SizedBox(height: 15),
                       Flexible(
                           child: TextField(
                         controller: _emailController,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: "E-mail",
                           hintText: "emailexemplo@gmail.com",
+                          hintStyle: TextStyle(
+                              color: Color.fromARGB(151, 103, 103, 104)),
                         ),
                       )),
-                      SizedBox(height: 15),
+                      const SizedBox(height: 15),
                       Flexible(
                           child: TextField(
                         controller: _passwordController,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: "Senha",
+                          hintText: "Minimo: 6 dígitos",
+                          hintStyle: TextStyle(
+                              color: Color.fromARGB(151, 103, 103, 104)),
                         ),
                       )),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       ElevatedButton(
                         onPressed: () {
                           _registrar(_nameController.text.trim());
                         },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Color(0xFF32CD99)),
-                        child: Row(
+                        child: const Row(
                           children: [
                             Icon(
                               Icons.app_registration,
@@ -156,11 +121,11 @@ class _TelacadastroState extends State<Telacadastro> {
                           ],
                         ),
                       ),
-                      SizedBox(height: 15),
+                      const SizedBox(height: 15),
                       Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text('Já tem uma conta?'),
+                          const Text('Já tem uma conta?'),
                           TextButton(
                             onPressed: () {
                               Navigator.of(context).pushReplacement(
@@ -168,7 +133,7 @@ class _TelacadastroState extends State<Telacadastro> {
                                     builder: (context) => telaDelogin()),
                               );
                             },
-                            child: Text(
+                            child: const Text(
                               "Entrar",
                               style: TextStyle(color: Colors.blue),
                             ),
