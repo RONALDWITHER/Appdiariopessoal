@@ -12,11 +12,17 @@ class _telaDeloginState extends State<telaDelogin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.lightBlue,
+      backgroundColor: Colors.white,
       body: Center(
-        child: Padding(
-            padding: const EdgeInsets.all(15),
-            child: Container(
+        child: Column(
+          children: [
+            SizedBox(height: 30),
+            Image.asset(
+              'assets/imagens/life.png',
+              height: 330,
+              width: 330,
+            ),
+            Container(
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(30),
@@ -24,7 +30,7 @@ class _telaDeloginState extends State<telaDelogin> {
               height: 500,
               width: 600,
               child: Padding(
-                padding: const EdgeInsets.all(20.0),
+                padding: const EdgeInsets.all(16.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -32,7 +38,7 @@ class _telaDeloginState extends State<telaDelogin> {
                       'Seja bem vindo(a)',
                       style: TextStyle(
                           fontSize: 30,
-                          color: Colors.lightBlue,
+                          color: Color(0xFF32CD99),
                           fontWeight: FontWeight.w500),
                     ),
                     const SizedBox(height: 15),
@@ -54,10 +60,13 @@ class _telaDeloginState extends State<telaDelogin> {
                     TextButton(
                         onPressed: () {},
                         style: TextButton.styleFrom(
-                            backgroundColor: Colors.lightBlue),
+                            backgroundColor: Color(0xFF32CD99)),
                         child: const Text(
                           'Entrar',
-                          style: TextStyle(color: Colors.white, fontSize: 16),
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600),
                         )),
                     const SizedBox(height: 15),
                     const Text('OU'),
@@ -92,7 +101,9 @@ class _telaDeloginState extends State<telaDelogin> {
                   ],
                 ),
               ),
-            )),
+            ),
+          ],
+        ),
       ),
     );
   }

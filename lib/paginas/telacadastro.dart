@@ -81,92 +81,105 @@ class _TelacadastroState extends State<Telacadastro> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.lightBlue,
+      backgroundColor: Colors.white,
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(15.0),
-          child: Container(
-            decoration: BoxDecoration(
-                color: Colors.white, borderRadius: BorderRadius.circular(30)),
-            height: 500,
-            width: 600,
-            child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Cadastrar',
-                    style: TextStyle(
-                        fontSize: 30,
-                        color: Colors.lightBlue,
-                        fontWeight: FontWeight.w500),
-                  ),
-                  Flexible(
-                      child: TextField(
-                    controller: _nameController,
-                    decoration: InputDecoration(
-                      labelText: "Usuario",
-                      hintText: "Fulano De tal",
-                    ),
-                  )),
-                  SizedBox(height: 15),
-                  Flexible(
-                      child: TextField(
-                    controller: _emailController,
-                    decoration: InputDecoration(
-                      labelText: "E-mail",
-                      hintText: "emailexemplo@gmail.com",
-                    ),
-                  )),
-                  SizedBox(height: 15),
-                  Flexible(
-                      child: TextField(
-                    controller: _passwordController,
-                    decoration: InputDecoration(
-                      labelText: "Senha",
-                    ),
-                  )),
-                  SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: () {
-                      _registrar(_nameController.text.trim());
-                    },
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.app_registration,
-                          color: Colors.black,
-                        ),
-                        Text(
-                          'Registrar',
-                          style: TextStyle(color: Colors.black),
-                        )
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 15),
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
+          child: Column(
+            children: [
+              SizedBox(height: 30),
+              Image.asset(
+                'assets/imagens/life.png',
+                height: 330,
+                width: 330,
+              ),
+              Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(30)),
+                height: 500,
+                width: 600,
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('Já tem uma conta?'),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(
-                                builder: (context) => telaDelogin()),
-                          );
-                        },
-                        child: Text(
-                          "Entrar",
-                          style: TextStyle(color: Colors.blue),
+                      Text(
+                        'Cadastrar',
+                        style: TextStyle(
+                            fontSize: 30,
+                            color: Color(0xFF32CD99),
+                            fontWeight: FontWeight.w500),
+                      ),
+                      Flexible(
+                          child: TextField(
+                        controller: _nameController,
+                        decoration: InputDecoration(
+                          labelText: "Usuario",
+                          hintText: "Fulano De tal",
                         ),
+                      )),
+                      SizedBox(height: 15),
+                      Flexible(
+                          child: TextField(
+                        controller: _emailController,
+                        decoration: InputDecoration(
+                          labelText: "E-mail",
+                          hintText: "emailexemplo@gmail.com",
+                        ),
+                      )),
+                      SizedBox(height: 15),
+                      Flexible(
+                          child: TextField(
+                        controller: _passwordController,
+                        decoration: InputDecoration(
+                          labelText: "Senha",
+                        ),
+                      )),
+                      SizedBox(height: 20),
+                      ElevatedButton(
+                        onPressed: () {
+                          _registrar(_nameController.text.trim());
+                        },
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Color(0xFF32CD99)),
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.app_registration,
+                              color: Colors.white,
+                            ),
+                            Text(
+                              'Registrar',
+                              style: TextStyle(color: Colors.white),
+                            )
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 15),
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text('Já tem uma conta?'),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                    builder: (context) => telaDelogin()),
+                              );
+                            },
+                            child: Text(
+                              "Entrar",
+                              style: TextStyle(color: Colors.blue),
+                            ),
+                          )
+                        ],
                       )
                     ],
-                  )
-                ],
+                  ),
+                ),
               ),
-            ),
+            ],
           ),
         ),
       ),
