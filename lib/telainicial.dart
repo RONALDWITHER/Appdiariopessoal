@@ -1,8 +1,12 @@
 import 'package:appdiario/telacadastro.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Telainicial extends StatelessWidget {
-  const Telainicial({super.key});
+  Telainicial({super.key});
+
+  final user = FirebaseAuth.instance.currentUser;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,16 +18,21 @@ class Telainicial extends StatelessWidget {
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            const DrawerHeader(
+            DrawerHeader(
               decoration: BoxDecoration(
                 color: Color.fromARGB(255, 33, 147, 241),
               ),
-              child: Text(
-                'Menu',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
+              child: Column(
+                children: [
+                  Text(
+                    'Menu',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                    ),
+                  ),
+                  Text('Bem-vindo, ${user?.displayName ?? 'Usuário'}!'),
+                ],
               ),
             ),
             ListTile(
