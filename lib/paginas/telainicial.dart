@@ -1,3 +1,4 @@
+import 'package:appdiario/drawer/calendario.dart';
 import 'package:appdiario/paginas/telacadastro.dart';
 import 'package:appdiario/paginas/teladeanotar.dart';
 import 'package:flutter/material.dart';
@@ -60,6 +61,17 @@ class _TelainicialState extends State<Telainicial> {
               title: const Text('Início'),
               onTap: () {
                 Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.calendar_month_outlined),
+              title: const Text('Calendário'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => Calendario()),
+                );
               },
             ),
             ListTile(

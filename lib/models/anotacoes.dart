@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class Anotacoes {
   Anotacoes(
       {required this.titulo_da_anotacao,
