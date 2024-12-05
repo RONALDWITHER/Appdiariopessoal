@@ -1,4 +1,5 @@
 import 'package:appdiario/drawer/calendario.dart';
+import 'package:appdiario/paginas/telaDeLogin.dart';
 import 'package:appdiario/paginas/telacadastro.dart';
 import 'package:appdiario/paginas/teladeanotar.dart';
 import 'package:flutter/material.dart';
@@ -88,7 +89,7 @@ class _TelainicialState extends State<Telainicial> {
                 Navigator.pop(context); // Fecha o Drawer
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => const Telacadastro()),
+                  MaterialPageRoute(builder: (context) => const telaDelogin()),
                 );
               },
             ),
