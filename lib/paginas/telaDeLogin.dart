@@ -80,7 +80,6 @@ class _telaDeloginState extends State<telaDelogin> {
             Container(
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(30),
               ),
               height: 500,
               width: 600,
