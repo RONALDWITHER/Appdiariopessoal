@@ -74,7 +74,7 @@ class _TelacadastroState extends State<Telacadastro> {
                         controller: _nameController,
                         decoration: const InputDecoration(
                           labelText: "Usuario",
-                          hintText: "Fulano De tal",
+                          hintText: "Thayane",
                           hintStyle: TextStyle(
                               color: Color.fromARGB(151, 103, 103, 104)),
                         ),

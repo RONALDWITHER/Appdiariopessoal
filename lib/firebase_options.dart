@@ -41,49 +41,52 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDmmyDNB5QV-s9Et3fVurf9Vt5HV5m-h2A',
-    appId: '1:372906765429:web:a6e76303020130d904dc3c',
-    messagingSenderId: '372906765429',
-    projectId: 'login-68bb3',
-    authDomain: 'login-68bb3.firebaseapp.com',
-    storageBucket: 'login-68bb3.firebasestorage.app',
-    measurementId: 'G-10VCX6P7R6',
+    apiKey: 'AIzaSyB-q9gALU8JYeR6guM5wBPxC5ACI6eXkuU',
+    appId: '1:367849798274:web:f84066d42472acbccd129b',
+    messagingSenderId: '367849798274',
+    projectId: 'diariopessoal-a32d6',
+    authDomain: 'diariopessoal-a32d6.firebaseapp.com',
+    storageBucket: 'diariopessoal-a32d6.firebasestorage.app',
+    measurementId: 'G-LK7WNDFQT0',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCxAiQdgiyL8slTdA6hsbr_emz175I0UvE',
-    appId: '1:372906765429:android:1b5b428034dead8f04dc3c',
-    messagingSenderId: '372906765429',
-    projectId: 'login-68bb3',
-    storageBucket: 'login-68bb3.firebasestorage.app',
+    apiKey: 'AIzaSyB4NdeCjxx4YJQPrwjcKvjOy-RNQsxNq3Y',
+    appId: '1:367849798274:android:cdd9e37303d3a22dcd129b',
+    messagingSenderId: '367849798274',
+    projectId: 'diariopessoal-a32d6',
+    storageBucket: 'diariopessoal-a32d6.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCDbqs8wa1V9O99svLBgPo3LEhDGvpdVSs',
-    appId: '1:372906765429:ios:6cdbd59626cf34ba04dc3c',
-    messagingSenderId: '372906765429',
-    projectId: 'login-68bb3',
-    storageBucket: 'login-68bb3.firebasestorage.app',
+    apiKey: 'AIzaSyA9emY_n5ldCUgV6BaSOBgBF-faZMnPTGI',
+    appId: '1:367849798274:ios:58e8d7519a424f58cd129b',
+    messagingSenderId: '367849798274',
+    projectId: 'diariopessoal-a32d6',
+    storageBucket: 'diariopessoal-a32d6.firebasestorage.app',
+    androidClientId: '367849798274-kuo7j99qim50035g7rbcb346fom0pn0b.apps.googleusercontent.com',
+    iosClientId: '367849798274-g203bo72kav9intdus3njbsif6v7rmf9.apps.googleusercontent.com',
     iosBundleId: 'com.example.appdiario',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyCDbqs8wa1V9O99svLBgPo3LEhDGvpdVSs',
-    appId: '1:372906765429:ios:6cdbd59626cf34ba04dc3c',
-    messagingSenderId: '372906765429',
-    projectId: 'login-68bb3',
-    storageBucket: 'login-68bb3.firebasestorage.app',
+    apiKey: 'AIzaSyA9emY_n5ldCUgV6BaSOBgBF-faZMnPTGI',
+    appId: '1:367849798274:ios:58e8d7519a424f58cd129b',
+    messagingSenderId: '367849798274',
+    projectId: 'diariopessoal-a32d6',
+    storageBucket: 'diariopessoal-a32d6.firebasestorage.app',
+    androidClientId: '367849798274-kuo7j99qim50035g7rbcb346fom0pn0b.apps.googleusercontent.com',
+    iosClientId: '367849798274-g203bo72kav9intdus3njbsif6v7rmf9.apps.googleusercontent.com',
     iosBundleId: 'com.example.appdiario',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyDmmyDNB5QV-s9Et3fVurf9Vt5HV5m-h2A',
-    appId: '1:372906765429:web:b99680935220d5bd04dc3c',
-    messagingSenderId: '372906765429',
-    projectId: 'login-68bb3',
-    authDomain: 'login-68bb3.firebaseapp.com',
-    storageBucket: 'login-68bb3.firebasestorage.app',
-    measurementId: 'G-TEL213CJCS',
+    apiKey: 'AIzaSyB-q9gALU8JYeR6guM5wBPxC5ACI6eXkuU',
+    appId: '1:367849798274:web:33875666456600c9cd129b',
+    messagingSenderId: '367849798274',
+    projectId: 'diariopessoal-a32d6',
+    authDomain: 'diariopessoal-a32d6.firebaseapp.com',
+    storageBucket: 'diariopessoal-a32d6.firebasestorage.app',
+    measurementId: 'G-GP5Z51KFBG',
   );
-
 }

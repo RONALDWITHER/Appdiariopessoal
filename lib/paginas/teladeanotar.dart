@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class TelaAnotacoes extends StatefulWidget {
-  final Function() mensagem;
+  final void Function(String, String, DateTime) salvar;
+  final void Function(BuildContext) mensagem;
 
-  TelaAnotacoes({required this.mensagem});
+  TelaAnotacoes({required this.mensagem, required this.salvar});
 
   @override
   _TelaAnotacoesState createState() => _TelaAnotacoesState();
@@ -35,18 +36,22 @@ class _TelaAnotacoesState extends State<TelaAnotacoes> {
               decoration: const InputDecoration(hintText: "Título"),
             ),
             SizedBox(height: 2),
-            TextField(
-              controller: _texto_da_anotacao,
-              decoration: const InputDecoration(
-                hintText: 'Comece a escrever...',
-                border: InputBorder.none,
+            Flexible(
+              child: TextField(
+                controller: _texto_da_anotacao,
+                decoration: const InputDecoration(
+                  hintText: 'Comece a escrever...',
+                  border: InputBorder.none,
+                ),
+                maxLines: null,
               ),
-              maxLines: null,
             ),
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                widget.mensagem(); // Chama o callback
+                widget.salvar(_titulo_da_anotacao.text, _texto_da_anotacao.text,
+                    DateTime.now());
+                widget.mensagem(context); // Chama o callback
                 Navigator.pop(context); // Fecha a tela
               },
               style: ElevatedButton.styleFrom(
