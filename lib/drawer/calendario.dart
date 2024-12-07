@@ -222,6 +222,3 @@ class DiaDetalhado extends StatelessWidget {
     );
   }
 }
-
-//           mariajesus@gmail.com
-//           mariajesus@gmail.com
