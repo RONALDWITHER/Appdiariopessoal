@@ -132,45 +132,96 @@ class _CalendarioState extends State<Calendario> {
           ],
         ),
       ),
-      body: Column(
-        children: [
-          TableCalendar(
-            firstDay: kFirstDay,
-            lastDay: kLastDay,
-            focusedDay: _focusedDay,
-            calendarFormat: _calendarFormat,
-            selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
-            onDaySelected: (selectedDay, focusedDay) {
-              setState(() {
-                _selectedDay = selectedDay;
-                _focusedDay = focusedDay;
-              });
-            },
-            eventLoader: (day) => _tasks[day] ?? [],
-          ),
-          const SizedBox(height: 8),
-          Expanded(
-            child: ListView.builder(
-              itemCount: _tasks[_selectedDay]?.length ?? 0,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(_tasks[_selectedDay!]![index]),
-                );
-              },
+      body: TableCalendar(
+        firstDay: kFirstDay,
+        lastDay: kLastDay,
+        focusedDay: _focusedDay,
+        calendarFormat: _calendarFormat,
+        selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
+        onDaySelected: (selectedDay, focusedDay) {
+          setState(() {
+            _selectedDay = selectedDay;
+            _focusedDay = focusedDay;
+          });
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => DiaDetalhado(data: selectedDay),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              decoration: const InputDecoration(
-                labelText: 'Adicionar Tarefa',
-                border: OutlineInputBorder(),
-              ),
-              onSubmitted: _addTask,
-            ),
-          ),
-        ],
+          );
+        },
+        eventLoader: (day) => _tasks[day] ?? [],
       ),
     );
   }
 }
+class DiaDetalhado extends StatelessWidget {
+  final DateTime data;
+
+  const DiaDetalhado({super.key, required this.data});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Detalhes do Dia'),
+        backgroundColor: const Color(0xFF32CD99),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start, // Alinha os itens à esquerda
+          children: [
+            Text(
+              'Data Selecionada: ${data.toLocal().toString().split(' ')[0]}',
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 20),
+            // Botões alinhados à esquerda
+            ElevatedButton.icon(
+              onPressed: () {
+                // Lógica para lembrete
+              },
+              icon: const Icon(Icons.alarm),
+              label: const Text('Lembrete'),
+              style: ElevatedButton.styleFrom(
+                foregroundColor: const Color.fromARGB(255, 235, 235, 235), // Cor do texto
+                backgroundColor: const Color(0xFF32CD99),
+              ),
+            ),
+            const SizedBox(height: 10),
+            ElevatedButton.icon(
+              onPressed: () {
+                // Lógica para anotações
+              },
+              icon: const Icon(Icons.note),
+              label: const Text('Anotações'),
+              style: ElevatedButton.styleFrom(
+                foregroundColor: const Color.fromARGB(255, 235, 235, 235), // Cor do texto
+                backgroundColor: const Color(0xFF32CD99),
+              ),
+            ),
+            const SizedBox(height: 10),
+            ElevatedButton.icon(
+              onPressed: () {
+                // Lógica para notificações
+              },
+              icon: const Icon(Icons.notifications),
+              label: const Text('Adicionar Notificações'),
+              style: ElevatedButton.styleFrom(
+                foregroundColor: const Color.fromARGB(255, 235, 235, 235), // Cor do texto
+                backgroundColor: const Color(0xFF32CD99),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+//           mariajesus@gmail.com
+//           mariajesus@gmail.com
