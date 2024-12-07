@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'dart:io';
 
 class TelaAnotacoes extends StatefulWidget {
   final void Function(BuildContext) mensagem;
@@ -16,7 +20,50 @@ class _TelaAnotacoesState extends State<TelaAnotacoes> {
   final TextEditingController _texto_da_anotacao = TextEditingController();
   final TextEditingController _titulo_da_anotacao = TextEditingController();
   final User? user = FirebaseAuth.instance.currentUser;
+  final ImagePicker _imagePicker = ImagePicker();
+  File? _selectedImage;
   bool _isLoading = false;
+
+  Future<void> _pickImageFromSource(ImageSource source) async {
+    PermissionStatus status;
+
+    // Verifica e solicita permissão com base na fonte de imagem
+    if (source == ImageSource.camera) {
+      status = await Permission.camera.request();
+    } else {
+      status = await Permission.photos.request();
+    }
+
+    // Caso a permissão seja concedida
+    if (status.isGranted) {
+      final pickedFile = await _imagePicker.pickImage(source: source);
+      if (pickedFile != null) {
+        setState(() {
+          _selectedImage = File(pickedFile.path);
+        });
+      }
+    } else if (status.isDenied || status.isPermanentlyDenied) {
+      // Permissão negada
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+            content: Text('Permissão negada. Habilite-a nas configurações.')),
+      );
+    }
+  }
+
+  Future<String?> _uploadImageToFirebase(File image) async {
+    try {
+      final ref = FirebaseStorage.instance.ref().child(
+          'anotacoes/${user!.uid}/${DateTime.now().toIso8601String()}.jpg');
+      final uploadTask = await ref.putFile(image);
+      return await ref.getDownloadURL();
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Erro ao enviar imagem: $e')),
+      );
+      return null;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +98,48 @@ class _TelaAnotacoesState extends State<TelaAnotacoes> {
               ),
             ),
             const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () async {
+                final source = await showModalBottomSheet<ImageSource>(
+                  context: context,
+                  builder: (context) => Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      ListTile(
+                        leading: const Icon(Icons.camera),
+                        title: const Text('Câmera'),
+                        onTap: () => Navigator.pop(context, ImageSource.camera),
+                      ),
+                      ListTile(
+                        leading: const Icon(Icons.photo_library),
+                        title: const Text('Galeria'),
+                        onTap: () =>
+                            Navigator.pop(context, ImageSource.gallery),
+                      ),
+                    ],
+                  ),
+                );
+
+                if (source != null) {
+                  await _pickImageFromSource(source);
+                }
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF32CD99),
+              ),
+              child: const Text(
+                'Adicionar Imagem',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+            if (_selectedImage != null)
+              Image.file(
+                _selectedImage!,
+                height: 150,
+                width: double.infinity,
+                fit: BoxFit.cover,
+              ),
+            const SizedBox(height: 20),
             _isLoading
                 ? const CircularProgressIndicator()
                 : ElevatedButton(
@@ -69,6 +158,12 @@ class _TelaAnotacoesState extends State<TelaAnotacoes> {
                       });
 
                       try {
+                        String? imageUrl;
+                        if (_selectedImage != null) {
+                          imageUrl =
+                              await _uploadImageToFirebase(_selectedImage!);
+                        }
+
                         if (user != null) {
                           await FirebaseFirestore.instance
                               .collection('usuarios')
@@ -78,10 +173,14 @@ class _TelaAnotacoesState extends State<TelaAnotacoes> {
                             'titulo': _titulo_da_anotacao.text,
                             'texto': _texto_da_anotacao.text,
                             'dataHorario': DateTime.now().toIso8601String(),
+                            'imagemUrl': imageUrl,
                           });
                           widget.mensagem(context);
                           _titulo_da_anotacao.clear();
                           _texto_da_anotacao.clear();
+                          setState(() {
+                            _selectedImage = null;
+                          });
                           Navigator.pop(context);
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
