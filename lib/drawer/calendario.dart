@@ -155,6 +155,7 @@ class _CalendarioState extends State<Calendario> {
     );
   }
 }
+
 class DiaDetalhado extends StatelessWidget {
   final DateTime data;
 
@@ -170,7 +171,8 @@ class DiaDetalhado extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start, // Alinha os itens à esquerda
+          crossAxisAlignment:
+              CrossAxisAlignment.start, // Alinha os itens à esquerda
           children: [
             Text(
               'Data Selecionada: ${data.toLocal().toString().split(' ')[0]}',
@@ -188,7 +190,8 @@ class DiaDetalhado extends StatelessWidget {
               icon: const Icon(Icons.alarm),
               label: const Text('Lembrete'),
               style: ElevatedButton.styleFrom(
-                foregroundColor: const Color.fromARGB(255, 235, 235, 235), // Cor do texto
+                foregroundColor:
+                    const Color.fromARGB(255, 235, 235, 235), // Cor do texto
                 backgroundColor: const Color(0xFF32CD99),
               ),
             ),
@@ -200,7 +203,8 @@ class DiaDetalhado extends StatelessWidget {
               icon: const Icon(Icons.note),
               label: const Text('Anotações'),
               style: ElevatedButton.styleFrom(
-                foregroundColor: const Color.fromARGB(255, 235, 235, 235), // Cor do texto
+                foregroundColor:
+                    const Color.fromARGB(255, 235, 235, 235), // Cor do texto
                 backgroundColor: const Color(0xFF32CD99),
               ),
             ),
@@ -212,7 +216,8 @@ class DiaDetalhado extends StatelessWidget {
               icon: const Icon(Icons.notifications),
               label: const Text('Adicionar Notificações'),
               style: ElevatedButton.styleFrom(
-                foregroundColor: const Color.fromARGB(255, 235, 235, 235), // Cor do texto
+                foregroundColor:
+                    const Color.fromARGB(255, 235, 235, 235), // Cor do texto
                 backgroundColor: const Color(0xFF32CD99),
               ),
             ),

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class TelaAnotacoes extends StatefulWidget {
-  final void Function(String, String, DateTime) salvar;
   final void Function(BuildContext) mensagem;
+  final void Function(String, String, DateTime) salvar;
 
   TelaAnotacoes({required this.mensagem, required this.salvar});
 
@@ -11,8 +13,10 @@ class TelaAnotacoes extends StatefulWidget {
 }
 
 class _TelaAnotacoesState extends State<TelaAnotacoes> {
-  TextEditingController _texto_da_anotacao = TextEditingController();
-  TextEditingController _titulo_da_anotacao = TextEditingController();
+  final TextEditingController _texto_da_anotacao = TextEditingController();
+  final TextEditingController _titulo_da_anotacao = TextEditingController();
+  final User? user = FirebaseAuth.instance.currentUser;
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +39,7 @@ class _TelaAnotacoesState extends State<TelaAnotacoes> {
               controller: _titulo_da_anotacao,
               decoration: const InputDecoration(hintText: "Título"),
             ),
-            SizedBox(height: 2),
+            const SizedBox(height: 16),
             Flexible(
               child: TextField(
                 controller: _texto_da_anotacao,
@@ -47,21 +51,65 @@ class _TelaAnotacoesState extends State<TelaAnotacoes> {
               ),
             ),
             const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                widget.salvar(_titulo_da_anotacao.text, _texto_da_anotacao.text,
-                    DateTime.now());
-                widget.mensagem(context); // Chama o callback
-                Navigator.pop(context); // Fecha a tela
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF32CD99),
-              ),
-              child: const Text('Salvar Anotação',
-                  style: TextStyle(
-                    color: Colors.white,
-                  )),
-            ),
+            _isLoading
+                ? const CircularProgressIndicator()
+                : ElevatedButton(
+                    onPressed: () async {
+                      if (_titulo_da_anotacao.text.isEmpty ||
+                          _texto_da_anotacao.text.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                              content: Text('Preencha o título e o texto!')),
+                        );
+                        return;
+                      }
+
+                      setState(() {
+                        _isLoading = true;
+                      });
+
+                      try {
+                        if (user != null) {
+                          await FirebaseFirestore.instance
+                              .collection('usuarios')
+                              .doc(user!.uid)
+                              .collection('anotacoes')
+                              .add({
+                            'titulo': _titulo_da_anotacao.text,
+                            'texto': _texto_da_anotacao.text,
+                            'dataHorario': DateTime.now().toIso8601String(),
+                          });
+                          widget.mensagem(context);
+                          _titulo_da_anotacao.clear();
+                          _texto_da_anotacao.clear();
+                          Navigator.pop(context);
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content:
+                                    Text('Erro: usuário não autenticado!')),
+                          );
+                        }
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Erro ao salvar: $e')),
+                        );
+                      } finally {
+                        setState(() {
+                          _isLoading = false;
+                        });
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF32CD99),
+                    ),
+                    child: const Text(
+                      'Salvar Anotação',
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
           ],
         ),
       ),

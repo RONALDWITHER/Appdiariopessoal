@@ -3,7 +3,7 @@ import 'package:appdiario/paginas/telainicial.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'recup_senha.dart'; // Importe a tela de recuperação de senha
+import 'recup_senha.dart';
 
 class telaDelogin extends StatefulWidget {
   const telaDelogin({super.key});

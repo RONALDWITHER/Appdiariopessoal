@@ -14,7 +14,7 @@ class TelaDetalhesAnotacao extends StatelessWidget {
         backgroundColor: const Color(0xFF32CD99),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0), 
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

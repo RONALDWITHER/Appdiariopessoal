@@ -1,12 +1,12 @@
 import 'package:appdiario/drawer/calendario.dart';
 import 'package:appdiario/models/anotacoes.dart';
 import 'package:appdiario/paginas/telaDeLogin.dart';
-import 'package:appdiario/paginas/telacadastro.dart';
 import 'package:appdiario/paginas/teladeanotar.dart';
 import 'package:appdiario/widgets/lista_de_anotacao.dart';
 import 'package:appdiario/widgets/tela_detalhes._da_anotacao.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Telainicial extends StatefulWidget {
   Telainicial({super.key});
@@ -19,51 +19,44 @@ class _TelainicialState extends State<Telainicial> {
   final user = FirebaseAuth.instance.currentUser;
 
   List<Anotacoes> anotacoes_do_usuario = [];
-
   Anotacoes? anotacao_deletada;
   int? indice_da_tarefa_del;
 
+  // Adiciona nova anotação
   void salvar_as_anotacoes(String titulo_Da_Anotacao, String texto_Da_Anotacao,
       DateTime DataHorario) {
     Anotacoes novaAnotacao = Anotacoes(
-        titulo_da_anotacao: titulo_Da_Anotacao,
-        DataHorario: DataHorario,
-        texto_da_anotacao: texto_Da_Anotacao);
+      titulo_da_anotacao: titulo_Da_Anotacao,
+      DataHorario: DataHorario,
+      texto_da_anotacao: texto_Da_Anotacao,
+    );
 
     setState(() {
       anotacoes_do_usuario.add(novaAnotacao);
     });
   }
 
-  void deletar_anotacao(Anotacoes anotacao) {
-    anotacao_deletada = anotacao;
-    indice_da_tarefa_del = anotacoes_do_usuario.indexOf(anotacao);
-    setState(() {
-      anotacoes_do_usuario.remove(anotacao);
-    });
-    ScaffoldMessenger.of(context).clearSnackBars();
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        backgroundColor: Colors.white,
-        content: const Text(
-          'Anotação removida com sucesso!',
-          style: TextStyle(color: Colors.black),
-        ),
-        action: SnackBarAction(
-            backgroundColor: Colors.white,
-            label: 'Desfazer',
-            textColor: const Color(0xFF32CD99),
-            onPressed: () {
-              setState(() {
-                anotacoes_do_usuario.insert(
-                    indice_da_tarefa_del!, anotacao_deletada!);
-              });
-            }),
-        duration: const Duration(seconds: 5),
-      ),
-    );
+  // Deleta uma anotação
+  void deletar_anotacao(String idAnotacao) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('usuarios')
+          .doc(user!.uid)
+          .collection('anotacoes')
+          .doc(idAnotacao)
+          .delete();
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Anotação removida com sucesso!')),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Erro ao deletar anotação!')),
+      );
+    }
   }
 
+  // Exibe mensagem de confirmação
   void confirmar(BuildContext context) {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Anotação salva com sucesso!')),
@@ -135,7 +128,7 @@ class _TelainicialState extends State<Telainicial> {
               leading: const Icon(Icons.exit_to_app),
               title: const Text('Sair'),
               onTap: () {
-                Navigator.pop(context); // Fecha o Drawer
+                Navigator.pop(context);
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) => const telaDelogin()),
@@ -145,50 +138,77 @@ class _TelainicialState extends State<Telainicial> {
           ],
         ),
       ),
-      body: Center(
-          child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Column(
-          children: [
-            Flexible(
-                child: ListView(
-              shrinkWrap: true,
-              children: [
-                for (Anotacoes anotacao in anotacoes_do_usuario)
-                  Anotacao_do_usuario(
-                    anotacao: anotacao,
-                    deletar_anotacao: deletar_anotacao,
-                    onClick: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              TelaDetalhesAnotacao(anotacao: anotacao),
+      body: StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance
+            .collection('usuarios')
+            .doc(user!.uid)
+            .collection('anotacoes')
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+            return const Center(child: Text('Nenhuma anotação encontrada.'));
+          }
+
+          final anotacoes = snapshot.data!.docs;
+
+          return ListView.builder(
+            itemCount: anotacoes.length,
+            itemBuilder: (context, index) {
+              final anotacao = anotacoes[index];
+              final idAnotacao = anotacao.id;
+              final titulo = anotacao['titulo'];
+              final texto = anotacao['texto'];
+              final dataHorario = anotacao['dataHorario'];
+
+              return Anotacao_do_usuario(
+                anotacao: Anotacoes(
+                  titulo_da_anotacao: titulo,
+                  texto_da_anotacao: texto,
+                  DataHorario: DateTime.parse(dataHorario),
+                ),
+                deletar_anotacao: (anotacao) => deletar_anotacao(idAnotacao),
+                onClick: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => TelaDetalhesAnotacao(
+                        anotacao: Anotacoes(
+                          titulo_da_anotacao: titulo,
+                          texto_da_anotacao: texto,
+                          DataHorario: DateTime.parse(dataHorario),
                         ),
-                      );
-                    },
-                  ),
-                const SizedBox(height: 30),
-              ],
-            ))
-          ],
-        ),
-      )),
+                      ),
+                    ),
+                  );
+                },
+              );
+            },
+          );
+        },
+      ),
       floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => TelaAnotacoes(
-                      mensagem: confirmar, salvar: salvar_as_anotacoes)),
-            );
-          },
-          backgroundColor: const Color(0xFF32CD99),
-          label: const Icon(
-            Icons.add,
-            color: Colors.white,
-            size: 30,
-          )),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => TelaAnotacoes(
+                mensagem: confirmar,
+                salvar: salvar_as_anotacoes,
+              ),
+            ),
+          );
+        },
+        backgroundColor: const Color(0xFF32CD99),
+        label: const Icon(
+          Icons.add,
+          color: Colors.white,
+          size: 30,
+        ),
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
