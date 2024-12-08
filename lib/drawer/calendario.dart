@@ -174,7 +174,7 @@ class DiaDetalhado extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Data Selecionada: ${data.toLocal().toString().split(' ')[0]}',
+              'Data Selecionada: ${data.year}-${data.month.toString().padLeft(2, '0')}-${data.day.toString().padLeft(2, '0')}',
               style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -182,9 +182,16 @@ class DiaDetalhado extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             ElevatedButton.icon(
-              onPressed: () {},
-              icon: const Icon(Icons.alarm),
-              label: const Text('Lembrete'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const TelaLembretes(),
+                  ),
+                );
+              },
+              icon: const Icon(Icons.calendar_today), 
+              label: const Text('Agenda'),
               style: ElevatedButton.styleFrom(
                 foregroundColor: const Color.fromARGB(255, 235, 235, 235),
                 backgroundColor: const Color(0xFF32CD99),
@@ -216,3 +223,118 @@ class DiaDetalhado extends StatelessWidget {
     );
   }
 }
+
+class TelaLembretes extends StatefulWidget {
+  const TelaLembretes({super.key});
+
+  @override
+  _TelaLembretesState createState() => _TelaLembretesState();
+}
+
+class _TelaLembretesState extends State<TelaLembretes> {
+  final Map<int, String> _anotacoes = {}; 
+
+  void _adicionarAnotacao(int horario) {
+    TextEditingController _controller = TextEditingController();
+
+    if (_anotacoes.containsKey(horario)) {
+      _controller.text = _anotacoes[horario]!;
+    }
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Anotação para $horario:00'),
+          content: TextField(
+            controller: _controller,
+            decoration: const InputDecoration(hintText: 'Digite sua anotação'),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Cancelar'),
+            ),
+            if (_anotacoes.containsKey(horario)) 
+              TextButton(
+                onPressed: () {
+                  setState(() {
+                    _anotacoes.remove(horario);
+                  });
+                  Navigator.pop(context);
+                },
+                child: const Text(
+                  'Excluir',
+                  style: TextStyle(color: Colors.red),
+                ),
+              ),
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  _anotacoes[horario] = _controller.text;
+                });
+                Navigator.pop(context);
+              },
+              child: const Text('Salvar'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Alarme'),
+        backgroundColor: const Color(0xFF32CD99),
+      ),
+      body: ListView.builder(
+        padding: const EdgeInsets.all(16.0),
+        itemCount: 24, 
+        itemBuilder: (context, index) {
+          final horario = index.toString().padLeft(2, '0');
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: Row(
+              children: [
+                Text(
+                  '$horario:00', 
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                
+                const SizedBox(width: 10),
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () => _adicionarAnotacao(index),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      height: 40,
+                      alignment: Alignment.centerLeft,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Text(
+                        _anotacoes[index] ?? '', 
+                        style: const TextStyle(fontSize: 14, color: Colors.black),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+// 
