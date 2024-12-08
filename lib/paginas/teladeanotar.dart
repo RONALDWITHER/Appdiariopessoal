@@ -27,14 +27,12 @@ class _TelaAnotacoesState extends State<TelaAnotacoes> {
   Future<void> _pickImageFromSource(ImageSource source) async {
     PermissionStatus status;
 
-    // Verifica e solicita permissão com base na fonte de imagem
     if (source == ImageSource.camera) {
       status = await Permission.camera.request();
     } else {
       status = await Permission.photos.request();
     }
 
-    // Caso a permissão seja concedida
     if (status.isGranted) {
       final pickedFile = await _imagePicker.pickImage(source: source);
       if (pickedFile != null) {
@@ -42,11 +40,11 @@ class _TelaAnotacoesState extends State<TelaAnotacoes> {
           _selectedImage = File(pickedFile.path);
         });
       }
-    } else if (status.isDenied || status.isPermanentlyDenied) {
-      // Permissão negada
+    } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-            content: Text('Permissão negada. Habilite-a nas configurações.')),
+          content: Text('Permissão negada. Habilite-a nas configurações.'),
+        ),
       );
     }
   }
@@ -55,8 +53,15 @@ class _TelaAnotacoesState extends State<TelaAnotacoes> {
     try {
       final ref = FirebaseStorage.instance.ref().child(
           'anotacoes/${user!.uid}/${DateTime.now().toIso8601String()}.jpg');
-      final uploadTask = await ref.putFile(image);
-      return await ref.getDownloadURL();
+      final uploadTask = ref.putFile(image);
+
+      // Aguarde o término do upload e valide
+      final taskSnapshot = await uploadTask;
+      if (taskSnapshot.state == TaskState.success) {
+        return await ref.getDownloadURL();
+      } else {
+        throw Exception("Falha no upload da imagem");
+      }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Erro ao enviar imagem: $e')),
@@ -162,6 +167,9 @@ class _TelaAnotacoesState extends State<TelaAnotacoes> {
                         if (_selectedImage != null) {
                           imageUrl =
                               await _uploadImageToFirebase(_selectedImage!);
+                          if (imageUrl == null) {
+                            throw Exception("Erro ao obter URL da imagem.");
+                          }
                         }
 
                         if (user != null) {
@@ -175,6 +183,7 @@ class _TelaAnotacoesState extends State<TelaAnotacoes> {
                             'dataHorario': DateTime.now().toIso8601String(),
                             'imagemUrl': imageUrl,
                           });
+
                           widget.mensagem(context);
                           _titulo_da_anotacao.clear();
                           _texto_da_anotacao.clear();
@@ -183,11 +192,7 @@ class _TelaAnotacoesState extends State<TelaAnotacoes> {
                           });
                           Navigator.pop(context);
                         } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content:
-                                    Text('Erro: usuário não autenticado!')),
-                          );
+                          throw Exception("Usuário não autenticado!");
                         }
                       } catch (e) {
                         ScaffoldMessenger.of(context).showSnackBar(

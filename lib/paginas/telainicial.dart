@@ -1,4 +1,5 @@
 import 'package:appdiario/drawer/calendario.dart';
+import 'package:appdiario/drawer/configuracoes.dart';
 import 'package:appdiario/models/anotacoes.dart';
 import 'package:appdiario/paginas/telaDeLogin.dart';
 import 'package:appdiario/paginas/teladeanotar.dart';
@@ -122,6 +123,10 @@ class _TelainicialState extends State<Telainicial> {
               title: const Text('Configurações'),
               onTap: () {
                 Navigator.pop(context);
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => Configuracoes()),
+                );
               },
             ),
             ListTile(

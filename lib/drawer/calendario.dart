@@ -1,3 +1,4 @@
+import 'package:appdiario/drawer/configuracoes.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -116,6 +117,10 @@ class _CalendarioState extends State<Calendario> {
               title: const Text('Configurações'),
               onTap: () {
                 Navigator.pop(context);
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => Configuracoes()),
+                );
               },
             ),
             ListTile(
@@ -190,7 +195,7 @@ class DiaDetalhado extends StatelessWidget {
                   ),
                 );
               },
-              icon: const Icon(Icons.calendar_today), 
+              icon: const Icon(Icons.calendar_today),
               label: const Text('Agenda'),
               style: ElevatedButton.styleFrom(
                 foregroundColor: const Color.fromARGB(255, 235, 235, 235),
@@ -232,7 +237,7 @@ class TelaLembretes extends StatefulWidget {
 }
 
 class _TelaLembretesState extends State<TelaLembretes> {
-  final Map<int, String> _anotacoes = {}; 
+  final Map<int, String> _anotacoes = {};
 
   void _adicionarAnotacao(int horario) {
     TextEditingController _controller = TextEditingController();
@@ -257,7 +262,7 @@ class _TelaLembretesState extends State<TelaLembretes> {
               },
               child: const Text('Cancelar'),
             ),
-            if (_anotacoes.containsKey(horario)) 
+            if (_anotacoes.containsKey(horario))
               TextButton(
                 onPressed: () {
                   setState(() {
@@ -294,7 +299,7 @@ class _TelaLembretesState extends State<TelaLembretes> {
       ),
       body: ListView.builder(
         padding: const EdgeInsets.all(16.0),
-        itemCount: 24, 
+        itemCount: 24,
         itemBuilder: (context, index) {
           final horario = index.toString().padLeft(2, '0');
           return Padding(
@@ -302,13 +307,12 @@ class _TelaLembretesState extends State<TelaLembretes> {
             child: Row(
               children: [
                 Text(
-                  '$horario:00', 
+                  '$horario:00',
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                
                 const SizedBox(width: 10),
                 Expanded(
                   child: GestureDetector(
@@ -322,8 +326,9 @@ class _TelaLembretesState extends State<TelaLembretes> {
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Text(
-                        _anotacoes[index] ?? '', 
-                        style: const TextStyle(fontSize: 14, color: Colors.black),
+                        _anotacoes[index] ?? '',
+                        style:
+                            const TextStyle(fontSize: 14, color: Colors.black),
                       ),
                     ),
                   ),
