@@ -1,9 +1,10 @@
+
 import 'package:appdiario/drawer/configuracoes.dart';
+import 'package:appdiario/paginas/telacadastro.dart';
+import 'package:appdiario/paginas/telainicial.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:appdiario/paginas/telainicial.dart';
-import 'package:appdiario/paginas/telacadastro.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class Calendario extends StatefulWidget {

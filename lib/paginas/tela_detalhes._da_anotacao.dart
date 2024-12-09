@@ -1,11 +1,16 @@
-import 'package:flutter/material.dart';
 import 'package:appdiario/models/anotacoes.dart';
+import 'package:flutter/material.dart';
 
-class TelaDetalhesAnotacao extends StatelessWidget {
+class TelaDetalhesAnotacao extends StatefulWidget {
   final Anotacoes anotacao;
 
   const TelaDetalhesAnotacao({super.key, required this.anotacao});
 
+  @override
+  State<TelaDetalhesAnotacao> createState() => _TelaDetalhesAnotacaoState();
+}
+
+class _TelaDetalhesAnotacaoState extends State<TelaDetalhesAnotacao> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +24,7 @@ class TelaDetalhesAnotacao extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              anotacao.titulo_da_anotacao,
+              widget.anotacao.titulo_da_anotacao,
               style: const TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
@@ -27,7 +32,7 @@ class TelaDetalhesAnotacao extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              'Criado em: ${anotacao.DataHorario}',
+              'Criado em: ${widget.anotacao.dataHorario}',
               style: const TextStyle(
                 fontSize: 14,
                 color: Colors.grey,
@@ -35,7 +40,7 @@ class TelaDetalhesAnotacao extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             Text(
-              anotacao.texto_da_anotacao,
+              widget.anotacao.texto_da_anotacao,
               style: const TextStyle(fontSize: 16),
             ),
           ],

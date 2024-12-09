@@ -1,8 +1,8 @@
+import 'package:appdiario/paginas/telaDeLogin.dart';
+import 'package:appdiario/paginas/telainicial.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:appdiario/paginas/telaDeLogin.dart';
-import 'package:appdiario/paginas/telainicial.dart';
 
 class Logotela extends StatefulWidget {
   @override

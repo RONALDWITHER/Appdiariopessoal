@@ -1,33 +1,23 @@
-import 'package:appdiario/servicos/anotacao_servico.dart';
 import 'package:flutter/material.dart';
 
-class TelaAnotacoes extends StatefulWidget {
+class Modal_addTarefa extends StatefulWidget {
   final void Function(String, String, DateTime) salvar;
   final void Function(BuildContext) mensagem;
-
-  TelaAnotacoes({required this.mensagem, required this.salvar});
+  const Modal_addTarefa(
+      {super.key, required this.salvar, required this.mensagem});
 
   @override
-  _TelaAnotacoesState createState() => _TelaAnotacoesState();
+  State<Modal_addTarefa> createState() => _Modal_addTarefaState();
 }
 
-class _TelaAnotacoesState extends State<TelaAnotacoes> {
+class _Modal_addTarefaState extends State<Modal_addTarefa> {
   TextEditingController _texto_da_anotacao = TextEditingController();
   TextEditingController _titulo_da_anotacao = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Nova Anotação',
-          style: TextStyle(
-            color: Colors.white,
-          ),
-        ),
-        backgroundColor: const Color(0xFF32CD99),
-        centerTitle: true,
-      ),
-      body: Padding(
+    return Container(
+      height: MediaQuery.of(context).size.height * 15,
+      child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [

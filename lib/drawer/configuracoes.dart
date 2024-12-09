@@ -1,9 +1,9 @@
 import 'package:appdiario/drawer/calendario.dart';
-import 'package:flutter/material.dart';
-import 'package:appdiario/paginas/telainicial.dart';
 import 'package:appdiario/paginas/telacadastro.dart';
+import 'package:appdiario/paginas/telainicial.dart';
+import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../main.dart'; //
+import '../../../main.dart'; //
 
 class Configuracoes extends StatefulWidget {
   const Configuracoes({super.key});

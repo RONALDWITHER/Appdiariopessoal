@@ -1,9 +1,8 @@
 import 'package:appdiario/paginas/telacadastro.dart';
 import 'package:appdiario/paginas/telainicial.dart';
+import 'package:appdiario/servicos/autenticacao.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'recup_senha.dart';
+import 'recup_senha.dart'; // Importe a tela de recuperação de senha
 
 class telaDelogin extends StatefulWidget {
   const telaDelogin({super.key});
@@ -15,53 +14,13 @@ class telaDelogin extends StatefulWidget {
 class _telaDeloginState extends State<telaDelogin> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  AutenticacaoServicos _autenticacaoServicos = AutenticacaoServicos();
 
   @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
-  }
-
-  Future<void> _signInWithGoogle() async {
-    try {
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-      if (googleUser == null) return;
-
-      final GoogleSignInAuthentication googleAuth =
-          await googleUser.authentication;
-
-      final AuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
-      );
-
-      await FirebaseAuth.instance.signInWithCredential(credential);
-
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => Telainicial()),
-      );
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Erro ao fazer login: $e")),
-      );
-    }
-  }
-
-  Future<void> _signInWithEmail() async {
-    try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim(),
-      );
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => Telainicial()),
-      );
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Erro ao fazer login: $e")),
-      );
-    }
   }
 
   @override
@@ -120,7 +79,25 @@ class _telaDeloginState extends State<telaDelogin> {
                       ),
                       const SizedBox(height: 15),
                       TextButton(
-                        onPressed: _signInWithEmail,
+                        onPressed: () {
+                          _autenticacaoServicos
+                              .logar_usuario(
+                                  email: _emailController.text,
+                                  senha: _passwordController.text)
+                              .then((value) {
+                            if (value != null) {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                content: Text(value),
+                                backgroundColor: Colors.red,
+                              ));
+                            } else {
+                              Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                      builder: (context) => Telainicial()));
+                            }
+                          });
+                        },
                         style: TextButton.styleFrom(
                             backgroundColor: const Color(0xFF32CD99)),
                         child: const Text(
@@ -135,7 +112,21 @@ class _telaDeloginState extends State<telaDelogin> {
                       const Text('OU'),
                       const SizedBox(height: 15),
                       ElevatedButton(
-                        onPressed: _signInWithGoogle,
+                        onPressed: () {
+                          _autenticacaoServicos.logarComGoogle().then((value) {
+                            if (value != null) {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                content: Text(value),
+                                backgroundColor: Colors.red,
+                              ));
+                            } else {
+                              Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                      builder: (context) => Telainicial()));
+                            }
+                          });
+                        },
                         child: const Text(
                           "Login com o Google",
                           style: TextStyle(
