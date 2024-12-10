@@ -16,7 +16,7 @@ class _Modal_addTarefaState extends State<Modal_addTarefa> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 15,
+      height: MediaQuery.of(context).size.height * 0.8,
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

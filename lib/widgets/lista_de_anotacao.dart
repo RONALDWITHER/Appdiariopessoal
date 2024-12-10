@@ -1,6 +1,7 @@
 //import 'dart:ffi';
 
 import 'package:appdiario/models/anotacoes.dart';
+import 'package:appdiario/paginas/tela_edicao.dart';
 import 'package:appdiario/servicos/anotacao_servico.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -36,7 +37,7 @@ class _Anotacao_do_usuarioState extends State<Anotacao_do_usuario> {
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.of(context).pop(); // Fecha o diálogo
+              Navigator.of(context).pop();
             },
             child: const Text('Cancelar'),
           ),
@@ -64,7 +65,16 @@ class _Anotacao_do_usuarioState extends State<Anotacao_do_usuario> {
       key: const ValueKey(0),
       endActionPane: ActionPane(motion: const ScrollMotion(), children: [
         SlidableAction(
-          onPressed: (context) => editarAnotacao(widget.anotacao),
+          onPressed: (context) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Tela_editarAnotacao(
+                  anotacao: widget.anotacao,
+                ),
+              ),
+            );
+          },
           backgroundColor: Colors.blue,
           icon: Icons.edit,
         ),
