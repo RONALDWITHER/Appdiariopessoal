@@ -6,7 +6,7 @@ import 'package:appdiario/widgets/drawer_telaInicial.dart';
 import 'package:appdiario/widgets/lista_de_anotacao.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:uuid/uuid.dart';
+
 
 class Telainicial extends StatefulWidget {
   Telainicial({super.key});
@@ -22,21 +22,7 @@ class _TelainicialState extends State<Telainicial> {
   Anotacoes? anotacao_deletada;
   int? indice_da_tarefa_del;
 
-  void salvar_as_anotacoes(String titulo_Da_Anotacao, String texto_Da_Anotacao,
-      DateTime dataHorario) {
-    Anotacoes novaAnotacao = Anotacoes(
-        id: const Uuid().v1(),
-        titulo_da_anotacao: titulo_Da_Anotacao,
-        dataHorario: dataHorario,
-        texto_da_anotacao: texto_Da_Anotacao);
-    _anotacaservico.adicionarTarefa(novaAnotacao);
-  }
-
-  void confirmar(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Anotação salva com sucesso!')),
-    );
-  }
+  void mostrarSnackBar(BuildContext context) {}
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +82,7 @@ class _TelainicialState extends State<Telainicial> {
                           ],
                         );
                       } else {
-                        return Text('Adicione uma anotação...');
+                        return const Text('Adicione uma anotação...');
                       }
                     }
                   }),
@@ -110,9 +96,8 @@ class _TelainicialState extends State<Telainicial> {
               context: context,
               builder: (BuildContext context) {
                 return Modal_addTarefa(
-                  mensagem: confirmar,
-                  salvar: salvar_as_anotacoes,
-                ); // Substitua por seu widget
+                  mensagem: mostrarSnackBar,
+                );
               },
             );
           },

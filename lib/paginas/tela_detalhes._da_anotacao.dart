@@ -43,6 +43,28 @@ class _TelaDetalhesAnotacaoState extends State<TelaDetalhesAnotacao> {
               widget.anotacao.texto_da_anotacao,
               style: const TextStyle(fontSize: 16),
             ),
+            SizedBox(height: 50),
+            SizedBox(
+              height: 350,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 60),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Flexible(
+                      child: widget.anotacao.urlImagem != null
+                          ? Image.network(
+                              widget.anotacao.urlImagem!,
+                              fit: BoxFit.cover,
+                            )
+                          : const Text(
+                              ' ',
+                            ),
+                    ),
+                  ],
+                ),
+              ),
+            )
           ],
         ),
       ),
