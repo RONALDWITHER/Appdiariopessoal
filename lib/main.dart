@@ -1,8 +1,5 @@
 import 'package:appdiario/firebase_options.dart';
 import 'package:appdiario/logotela.dart';
-import 'package:appdiario/paginas/telaDeLogin.dart';
-import 'package:appdiario/paginas/telacadastro.dart';
-import 'package:appdiario/paginas/telainicial.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 

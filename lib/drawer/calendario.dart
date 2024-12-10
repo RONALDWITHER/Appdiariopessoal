@@ -1,10 +1,10 @@
-
-import 'package:appdiario/drawer/configuracoes.dart';
-import 'package:appdiario/paginas/telacadastro.dart';
-import 'package:appdiario/paginas/telainicial.dart';
+import 'package:appdiario/servicos/lembrete_servico.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:appdiario/paginas/telainicial.dart';
+import 'package:appdiario/paginas/telacadastro.dart';
+import 'package:appdiario/drawer/configuracoes.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class Calendario extends StatefulWidget {
@@ -21,51 +21,8 @@ class _CalendarioState extends State<Calendario> {
   final kFirstDay = DateTime.utc(2000, 1, 1);
   final kLastDay = DateTime.utc(2100, 12, 31);
   final user = FirebaseAuth.instance.currentUser;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Map<DateTime, List<String>> _tasks = {};
-
-  @override
-  void initState() {
-    super.initState();
-    _loadTasks();
-  }
-
-  Future<void> _loadTasks() async {
-    if (user != null) {
-      final snapshot = await _firestore
-          .collection('users')
-          .doc(user!.uid)
-          .collection('tasks')
-          .get();
-
-      setState(() {
-        for (var doc in snapshot.docs) {
-          DateTime date = DateTime.parse(doc.id);
-          _tasks[date] = List<String>.from(doc['tasks']);
-        }
-      });
-    }
-  }
-
-  Future<void> _addTask(String task) async {
-    if (_selectedDay != null && user != null) {
-      setState(() {
-        _tasks[_selectedDay!] = _tasks[_selectedDay!] ?? [];
-        _tasks[_selectedDay!]!.add(task);
-      });
-
-      // Salvar no Firestore
-      await _firestore
-          .collection('users')
-          .doc(user!.uid)
-          .collection('tasks')
-          .doc(_selectedDay!.toIso8601String())
-          .set({
-        'tasks': _tasks[_selectedDay!],
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -165,7 +122,7 @@ class _CalendarioState extends State<Calendario> {
 class DiaDetalhado extends StatelessWidget {
   final DateTime data;
 
-  const DiaDetalhado({super.key, required this.data});
+  const DiaDetalhado({super.key, required this.data, required});
 
   @override
   Widget build(BuildContext context) {
@@ -180,7 +137,7 @@ class DiaDetalhado extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Data Selecionada: ${data.year}-${data.month.toString().padLeft(2, '0')}-${data.day.toString().padLeft(2, '0')}',
+              'Data Selecionada: ${data.day}/${data.month.toString().padLeft(2, '0')}/${data.year.toString().padLeft(2, '0')}',
               style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -188,14 +145,7 @@ class DiaDetalhado extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             ElevatedButton.icon(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const TelaLembretes(),
-                  ),
-                );
-              },
+              onPressed: () {},
               icon: const Icon(Icons.calendar_today),
               label: const Text('Agenda'),
               style: ElevatedButton.styleFrom(
@@ -215,7 +165,14 @@ class DiaDetalhado extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             ElevatedButton.icon(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => TelaLembretes(dataSelecionada: data),
+                  ),
+                );
+              },
               icon: const Icon(Icons.notifications),
               label: const Text('Adicionar Notificações'),
               style: ElevatedButton.styleFrom(
@@ -231,116 +188,128 @@ class DiaDetalhado extends StatelessWidget {
 }
 
 class TelaLembretes extends StatefulWidget {
-  const TelaLembretes({super.key});
+  final DateTime dataSelecionada;
+
+  const TelaLembretes({super.key, required this.dataSelecionada});
 
   @override
-  _TelaLembretesState createState() => _TelaLembretesState();
+  State<TelaLembretes> createState() => _TelaLembretesState();
 }
 
 class _TelaLembretesState extends State<TelaLembretes> {
-  final Map<int, String> _anotacoes = {};
+  final LembreteServico _lembreteServico = LembreteServico();
 
-  void _adicionarAnotacao(int horario) {
-    TextEditingController _controller = TextEditingController();
-
-    if (_anotacoes.containsKey(horario)) {
-      _controller.text = _anotacoes[horario]!;
-    }
-
-    showDialog(
+  void _adicionarAnotacao(DateTime dataSelecionada) async {
+    final TimeOfDay? pickedTime = await showTimePicker(
       context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text('Anotação para $horario:00'),
-          content: TextField(
-            controller: _controller,
-            decoration: const InputDecoration(hintText: 'Digite sua anotação'),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text('Cancelar'),
-            ),
-            if (_anotacoes.containsKey(horario))
-              TextButton(
-                onPressed: () {
-                  setState(() {
-                    _anotacoes.remove(horario);
-                  });
-                  Navigator.pop(context);
-                },
-                child: const Text(
-                  'Excluir',
-                  style: TextStyle(color: Colors.red),
-                ),
-              ),
-            TextButton(
-              onPressed: () {
-                setState(() {
-                  _anotacoes[horario] = _controller.text;
-                });
-                Navigator.pop(context);
-              },
-              child: const Text('Salvar'),
-            ),
-          ],
+      initialTime: TimeOfDay.now(),
+      builder: (BuildContext context, Widget? child) {
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+          child: child!,
         );
       },
     );
+
+    if (pickedTime != null) {
+      final String formattedTime =
+          '${pickedTime.hour.toString().padLeft(2, '0')}:${pickedTime.minute.toString().padLeft(2, '0')}';
+      final TextEditingController _controller = TextEditingController();
+
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Anotação para $formattedTime'),
+            content: TextField(
+              controller: _controller,
+              decoration:
+                  const InputDecoration(hintText: 'Digite sua anotação'),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('Cancelar'),
+              ),
+              TextButton(
+                onPressed: () {
+                  if (_controller.text.isNotEmpty) {
+                    _lembreteServico.adicionarLembrete(
+                      formattedTime,
+                      _controller.text,
+                      dataSelecionada,
+                    );
+                    Navigator.pop(context);
+                  }
+                },
+                child: const Text('Salvar'),
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Alarme'),
+        title: const Text('Lembretes'),
         backgroundColor: const Color(0xFF32CD99),
       ),
-      body: ListView.builder(
-        padding: const EdgeInsets.all(16.0),
-        itemCount: 24,
-        itemBuilder: (context, index) {
-          final horario = index.toString().padLeft(2, '0');
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: Row(
-              children: [
-                Text(
-                  '$horario:00',
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
+      body: StreamBuilder<QuerySnapshot>(
+        stream: _lembreteServico.carregarLembretes(widget.dataSelecionada),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+            return const Center(child: Text('Nenhuma anotação encontrada.'));
+          }
+
+          final lembretes = snapshot.data!.docs;
+
+          return ListView.builder(
+            itemCount: lembretes.length,
+            itemBuilder: (context, index) {
+              final lembrete = lembretes[index];
+              final data = lembrete.data() as Map<String, dynamic>?;
+
+              final anotacao = data?['anotacao'] ?? 'Sem anotação';
+              final horario = data?['horario'] ?? 'Sem horário';
+              final dataFormatada = data?['data'] ?? '';
+
+              final dataLocal = DateTime.parse(
+                  '${dataFormatada.split('/')[2]}-${dataFormatada.split('/')[1]}-${dataFormatada.split('/')[0]}');
+
+              return Card(
+                margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                child: ListTile(
+                  title: Text(
+                      '$horario (${dataLocal.day}/${dataLocal.month}/${dataLocal.year})'),
+                  subtitle: Text(anotacao),
+                  trailing: IconButton(
+                    icon: const Icon(Icons.delete, color: Colors.red),
+                    onPressed: () =>
+                        _lembreteServico.deletarLembrete(lembrete.id),
                   ),
                 ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () => _adicionarAnotacao(index),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      height: 40,
-                      alignment: Alignment.centerLeft,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Text(
-                        _anotacoes[index] ?? '',
-                        style:
-                            const TextStyle(fontSize: 14, color: Colors.black),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+              );
+            },
           );
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          _adicionarAnotacao(widget.dataSelecionada);
+        },
+        backgroundColor: const Color(0xFF32CD99),
+        child: const Icon(Icons.add, color: Colors.white),
       ),
     );
   }
 }
-
-// 

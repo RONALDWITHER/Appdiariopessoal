@@ -1,4 +1,3 @@
-import 'package:appdiario/servicos/anotacao_servico.dart';
 import 'package:flutter/material.dart';
 
 class TelaAnotacoes extends StatefulWidget {
