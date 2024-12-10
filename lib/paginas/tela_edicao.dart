@@ -27,7 +27,6 @@ class _Tela_editarAnotacaoState extends State<Tela_editarAnotacao> {
 
   @override
   void dispose() {
-    // Certifique-se de descartar o controlador para evitar vazamentos de memória
     controlar_titulo.dispose();
     super.dispose();
   }

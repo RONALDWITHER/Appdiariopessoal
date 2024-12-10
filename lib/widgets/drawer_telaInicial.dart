@@ -1,4 +1,5 @@
 import 'package:appdiario/drawer/calendario.dart';
+import 'package:appdiario/drawer/configuracoes.dart';
 import 'package:appdiario/paginas/telaDeLogin.dart';
 import 'package:flutter/material.dart';
 
@@ -53,6 +54,10 @@ class DrawerTelainicial extends StatelessWidget {
             title: const Text('Configurações'),
             onTap: () {
               Navigator.pop(context);
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => Configuracoes()),
+              );
             },
           ),
           ListTile(

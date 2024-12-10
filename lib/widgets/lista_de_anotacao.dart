@@ -1,23 +1,25 @@
-//import 'dart:ffi';
-
-import 'package:appdiario/models/anotacoes.dart';
-import 'package:appdiario/paginas/tela_edicao.dart';
-import 'package:appdiario/servicos/anotacao_servico.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import '../models/anotacoes.dart';
+import '../servicos/anotacao_servico.dart';
+import '../paginas/tela_edicao.dart';
 
 class Anotacao_do_usuario extends StatefulWidget {
   final Anotacoes anotacao;
   final VoidCallback onClick;
-  Anotacao_do_usuario(
-      {super.key, required this.anotacao, required this.onClick});
+
+  Anotacao_do_usuario({
+    super.key,
+    required this.anotacao,
+    required this.onClick,
+  });
 
   @override
   State<Anotacao_do_usuario> createState() => _Anotacao_do_usuarioState();
 }
 
 class _Anotacao_do_usuarioState extends State<Anotacao_do_usuario> {
-  AnotacaoServico _anotacaoServico = AnotacaoServico();
+  final AnotacaoServico _anotacaoServico = AnotacaoServico();
 
   void editarAnotacao(Anotacoes anotacao) {
     TextEditingController editarControlador =
@@ -26,12 +28,12 @@ class _Anotacao_do_usuarioState extends State<Anotacao_do_usuario> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Editar anotacao'),
+        title: const Text('Editar anotação'),
         content: TextField(
           controller: editarControlador,
           decoration: const InputDecoration(
-            labelText: 'anotacao',
-            hintText: 'Edite sua anotacao aqui',
+            labelText: 'Anotação',
+            hintText: 'Edite sua anotação aqui',
           ),
         ),
         actions: [
@@ -50,7 +52,7 @@ class _Anotacao_do_usuarioState extends State<Anotacao_do_usuario> {
                 });
                 await _anotacaoServico.editarAnotacao(anotacao);
               }
-              Navigator.of(context).pop(); // Fecha o diálogo
+              Navigator.of(context).pop();
             },
             child: const Text('Salvar'),
           ),
@@ -63,33 +65,36 @@ class _Anotacao_do_usuarioState extends State<Anotacao_do_usuario> {
   Widget build(BuildContext context) {
     return Slidable(
       key: const ValueKey(0),
-      endActionPane: ActionPane(motion: const ScrollMotion(), children: [
-        SlidableAction(
-          onPressed: (context) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => Tela_editarAnotacao(
-                  anotacao: widget.anotacao,
+      endActionPane: ActionPane(
+        motion: const ScrollMotion(),
+        children: [
+          SlidableAction(
+            onPressed: (context) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Tela_editarAnotacao(
+                    anotacao: widget.anotacao,
+                  ),
                 ),
-              ),
-            );
-          },
-          backgroundColor: Colors.blue,
-          icon: Icons.edit,
-        ),
-        SlidableAction(
-          onPressed: (context) =>
-              _anotacaoServico.excluirAnotacao(widget.anotacao),
-          backgroundColor: Colors.red,
-          icon: Icons.delete,
-        )
-      ]),
+              );
+            },
+            backgroundColor: Colors.blue,
+            icon: Icons.edit,
+          ),
+          SlidableAction(
+            onPressed: (context) =>
+                _anotacaoServico.excluirAnotacao(widget.anotacao),
+            backgroundColor: Colors.red,
+            icon: Icons.delete,
+          ),
+        ],
+      ),
       child: GestureDetector(
         onTap: widget.onClick,
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.grey[200],
+            color: Theme.of(context).cardColor, // Cor do tema atual
             borderRadius: BorderRadius.circular(8),
           ),
           margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
@@ -99,20 +104,26 @@ class _Anotacao_do_usuarioState extends State<Anotacao_do_usuario> {
             children: [
               Text(
                 widget.anotacao.titulo_da_anotacao,
-                style:
-                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
               ),
               const SizedBox(height: 4),
               Text(
                 widget.anotacao.texto_da_anotacao.length > 50
                     ? '${widget.anotacao.texto_da_anotacao.substring(0, widget.anotacao.texto_da_anotacao.length > 200 ? 200 : widget.anotacao.texto_da_anotacao.length)}...'
                     : widget.anotacao.texto_da_anotacao,
-                style: const TextStyle(fontSize: 14),
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      fontSize: 14,
+                    ),
               ),
               const SizedBox(height: 4),
               Text(
                 'Data: ${widget.anotacao.dataHorario.toString().split(" ")[0]}',
-                style: const TextStyle(fontSize: 12, color: Colors.grey),
+                style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                      fontSize: 12,
+                    ),
               ),
             ],
           ),

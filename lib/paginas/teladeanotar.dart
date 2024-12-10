@@ -51,8 +51,8 @@ class _TelaAnotacoesState extends State<TelaAnotacoes> {
                 widget.salvar(_titulo_da_anotacao.text, _texto_da_anotacao.text,
                     DateTime.now());
 
-                widget.mensagem(context); // Chama o callback
-                Navigator.pop(context); // Fecha a tela
+                widget.mensagem(context);
+                Navigator.pop(context);
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF32CD99),
