@@ -104,6 +104,7 @@ class _CalendarioState extends State<Calendario> {
         ),
       ),
       body: TableCalendar(
+        locale: 'pt_BR',
         firstDay: kFirstDay,
         lastDay: kLastDay,
         focusedDay: _focusedDay,

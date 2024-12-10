@@ -2,6 +2,7 @@ import 'package:appdiario/firebase_options.dart';
 import 'package:appdiario/logotela.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 ValueNotifier<ThemeMode> themeNotifier = ValueNotifier(ThemeMode.light);
 
@@ -26,6 +27,14 @@ class MyApp extends StatelessWidget {
           darkTheme: ThemeData.dark(),
           themeMode: currentTheme,
           home: Logotela(),
+          localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [
+            Locale('pt', 'BR'), // Configurando para Português do Brasil
+          ],
         );
       },
     );
