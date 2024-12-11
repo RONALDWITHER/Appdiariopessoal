@@ -99,31 +99,73 @@ class _Anotacao_do_usuarioState extends State<Anotacao_do_usuario> {
           ),
           margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
           padding: const EdgeInsets.all(8),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                widget.anotacao.titulo_da_anotacao,
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
+              // Exibição da miniatura da imagem, se disponível
+              if (widget.anotacao.urlImagem != null &&
+                  widget.anotacao.urlImagem!.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: Image.network(
+                      widget.anotacao.urlImagem!,
+                      width: 60,
+                      height: 60,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) =>
+                          const Icon(Icons.broken_image, size: 60),
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) {
+                          return child;
+                        }
+                        return SizedBox(
+                          width: 60,
+                          height: 60,
+                          child: Center(
+                            child: CircularProgressIndicator(
+                              value: loadingProgress.expectedTotalBytes != null
+                                  ? loadingProgress.cumulativeBytesLoaded /
+                                      loadingProgress.expectedTotalBytes!
+                                  : null,
+                            ),
+                          ),
+                        );
+                      },
                     ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                widget.anotacao.texto_da_anotacao.length > 50
-                    ? '${widget.anotacao.texto_da_anotacao.substring(0, widget.anotacao.texto_da_anotacao.length > 200 ? 200 : widget.anotacao.texto_da_anotacao.length)}...'
-                    : widget.anotacao.texto_da_anotacao,
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      fontSize: 14,
+                  ),
+                ),
+              // Detalhes da anotação
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      widget.anotacao.titulo_da_anotacao,
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
                     ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                'Data: ${widget.anotacao.dataHorario.toString().split(" ")[0]}',
-                style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                      fontSize: 12,
+                    const SizedBox(height: 4),
+                    Text(
+                      widget.anotacao.texto_da_anotacao.length > 50
+                          ? '${widget.anotacao.texto_da_anotacao.substring(0, 50)}...'
+                          : widget.anotacao.texto_da_anotacao,
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            fontSize: 14,
+                          ),
                     ),
+                    const SizedBox(height: 4),
+                    Text(
+                      'Data: ${widget.anotacao.dataHorario.toString().split(" ")[0]}',
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                            fontSize: 12,
+                          ),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

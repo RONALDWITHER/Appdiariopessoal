@@ -16,7 +16,7 @@ class Modal_addTarefa extends StatefulWidget {
 class _Modal_addTarefaState extends State<Modal_addTarefa> {
   late Anotacoes nova_anotacao;
 
-  File? _selectedImage; // Variável para armazenar a imagem selecionada
+  File? _selectedImage;
 
   TextEditingController _texto_da_anotacao = TextEditingController();
   TextEditingController _titulo_da_anotacao = TextEditingController();
@@ -81,7 +81,6 @@ class _Modal_addTarefaState extends State<Modal_addTarefa> {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () async {
-                // Se uma imagem foi selecionada, faz o upload
                 String? imageUrl;
                 if (_selectedImage != null) {
                   imageUrl = await _anotacaoServico
@@ -92,7 +91,7 @@ class _Modal_addTarefaState extends State<Modal_addTarefa> {
                   texto_da_anotacao: _texto_da_anotacao.text,
                   dataHorario: DateTime.now(),
                   id: const Uuid().v1(),
-                  urlImagem: imageUrl, // Salva a URL da imagem no campo
+                  urlImagem: imageUrl,
                 );
 
                 await _anotacaoServico.adicionarTarefa(nova_anotacao);

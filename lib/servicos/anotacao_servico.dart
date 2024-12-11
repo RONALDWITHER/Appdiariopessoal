@@ -7,6 +7,8 @@ import 'package:uuid/uuid.dart';
 
 class AnotacaoServico {
   String userID;
+  final CollectionReference _colecaoAnotacoes =
+      FirebaseFirestore.instance.collection('anotacoes');
 
   AnotacaoServico() : userID = FirebaseAuth.instance.currentUser!.uid;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -19,6 +21,27 @@ class AnotacaoServico {
         .collection('anotacoes')
         .doc(anotacao.id)
         .set(anotacao.toMap());
+  }
+
+  Future<List<Anotacoes>> buscarAnotacoesPorTitulo(
+      String titulo_da_anotacao) async {
+    try {
+      QuerySnapshot querySnapshot = await _colecaoAnotacoes
+          .where('titulo_da_anotacao',
+              isGreaterThanOrEqualTo: titulo_da_anotacao)
+          .where('titulo_da_anotacao',
+              isLessThanOrEqualTo: titulo_da_anotacao + '\uf8ff')
+          .get();
+
+      List<Anotacoes> anotacoes = querySnapshot.docs.map((doc) {
+        return Anotacoes.fromMap(doc.data() as Map<String, dynamic>);
+      }).toList();
+
+      return anotacoes;
+    } catch (e) {
+      print('Erro ao buscar anotações: $e');
+      return [];
+    }
   }
 
   Future<void> editarAnotacao(Anotacoes anotacao) async {
@@ -49,20 +72,11 @@ class AnotacaoServico {
 
   Future<String> uploadImageToStorage(File image) async {
     try {
-      
       String filePath = 'anotacoes/${Uuid().v1()}.jpg';
       Reference ref = _storage.ref().child(filePath);
-
-      // Fazendo o upload do arquivo
       UploadTask uploadTask = ref.putFile(image);
-
-      // Espera o upload ser completado
       TaskSnapshot taskSnapshot = await uploadTask;
-
-      // Obtém a URL do arquivo após o upload
       String downloadUrl = await taskSnapshot.ref.getDownloadURL();
-
-      // Retorna a URL da imagem
       return downloadUrl;
     } catch (e) {
       throw Exception('Erro ao fazer upload da imagem: $e');

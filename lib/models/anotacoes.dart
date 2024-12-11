@@ -13,10 +13,12 @@ class Anotacoes {
   String? urlImagem;
 
   Anotacoes.fromMap(Map<String, dynamic> map)
-      : id = map['id'],
-        titulo_da_anotacao = map['titulo_da_anotacao'],
-        texto_da_anotacao = map['texto_da_anotacao'],
-        dataHorario = DateTime.parse(map['DataHorario']),
+      : id = map['id'] ?? '', // Define um valor padrão
+        titulo_da_anotacao = map['titulo_da_anotacao'] ?? '',
+        texto_da_anotacao = map['texto_da_anotacao'] ?? '',
+        dataHorario = map['DataHorario'] != null
+            ? DateTime.parse(map['DataHorario'])
+            : DateTime.now(), // Define um valor padrão
         urlImagem = map['urlImagem'];
   Map<String, dynamic> toMap() {
     return {
