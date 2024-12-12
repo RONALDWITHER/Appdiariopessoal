@@ -1,5 +1,6 @@
 import 'package:appdiario/models/anotacoes.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class TelaDetalhesAnotacao extends StatefulWidget {
   final Anotacoes anotacao;
@@ -34,7 +35,7 @@ class _TelaDetalhesAnotacaoState extends State<TelaDetalhesAnotacao> {
             ),
             const SizedBox(height: 8),
             Text(
-              'Criado em: ${widget.anotacao.dataHorario}',
+              'Criado em: ${DateFormat('dd/MM/yyyy HH:mm').format(widget.anotacao.dataHorario)}',
               style: const TextStyle(
                 fontSize: 14,
                 color: Colors.grey,

@@ -38,6 +38,14 @@ class _CalendarioState extends State<Calendario> {
         centerTitle: true,
         backgroundColor: const Color(0xFF32CD99),
         iconTheme: const IconThemeData(color: Colors.white),
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => Telainicial()));
+              },
+              icon: Icon(Icons.home))
+        ],
       ),
       drawer: Drawer(
         child: ListView(
@@ -158,7 +166,7 @@ class DiaDetalhado extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => AgendaScreen(dataSelecionada: data), 
+                    builder: (context) => AgendaScreen(dataSelecionada: data),
                   ),
                 );
               },
@@ -202,7 +210,6 @@ class DiaDetalhado extends StatelessWidget {
     );
   }
 }
-
 
 class TelaLembretes extends StatefulWidget {
   final DateTime dataSelecionada;
@@ -391,7 +398,8 @@ class _AgendaScreenState extends State<AgendaScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Agenda - ${widget.dataSelecionada.day}/${widget.dataSelecionada.month}/${widget.dataSelecionada.year}'),
+        title: Text(
+            'Agenda - ${widget.dataSelecionada.day}/${widget.dataSelecionada.month}/${widget.dataSelecionada.year}'),
         backgroundColor: const Color(0xFF32CD99),
         actions: [
           IconButton(

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:intl/intl.dart';
 import '../models/anotacoes.dart';
 import '../servicos/anotacao_servico.dart';
 import '../paginas/tela_edicao.dart';
+import 'package:share_plus/share_plus.dart';
 
 class Anotacao_do_usuario extends StatefulWidget {
   final Anotacoes anotacao;
@@ -20,46 +22,6 @@ class Anotacao_do_usuario extends StatefulWidget {
 
 class _Anotacao_do_usuarioState extends State<Anotacao_do_usuario> {
   final AnotacaoServico _anotacaoServico = AnotacaoServico();
-
-  void editarAnotacao(Anotacoes anotacao) {
-    TextEditingController editarControlador =
-        TextEditingController(text: anotacao.texto_da_anotacao);
-
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Editar anotação'),
-        content: TextField(
-          controller: editarControlador,
-          decoration: const InputDecoration(
-            labelText: 'Anotação',
-            hintText: 'Edite sua anotação aqui',
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: const Text('Cancelar'),
-          ),
-          ElevatedButton(
-            onPressed: () async {
-              String novoNome = editarControlador.text.trim();
-              if (novoNome.isNotEmpty) {
-                setState(() {
-                  anotacao.texto_da_anotacao = novoNome;
-                });
-                await _anotacaoServico.editarAnotacao(anotacao);
-              }
-              Navigator.of(context).pop();
-            },
-            child: const Text('Salvar'),
-          ),
-        ],
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,8 +45,29 @@ class _Anotacao_do_usuarioState extends State<Anotacao_do_usuario> {
             icon: Icons.edit,
           ),
           SlidableAction(
+            onPressed: (context) {
+              String dataFormatada =
+                  DateFormat('dd/MM/yyyy').format(widget.anotacao.dataHorario);
+
+              String anotacao = '''
+-- *Título: ${widget.anotacao.titulo_da_anotacao}*
+
+-- Texto : ${widget.anotacao.texto_da_anotacao}
+
+*-- Data : $dataFormatada*
+'''
+                  .trim();
+
+              String anotacaoFormatada =
+                  anotacao.trim().replaceAll(RegExp(r'\s+'), ' ');
+              Share.share(anotacaoFormatada);
+            },
+            backgroundColor: Colors.green,
+            icon: Icons.share,
+          ),
+          SlidableAction(
             onPressed: (context) =>
-                _anotacaoServico.excluirAnotacao(widget.anotacao),
+                _anotacaoServico.excluirAnotacaoComImagem(widget.anotacao),
             backgroundColor: Colors.red,
             icon: Icons.delete,
           ),
@@ -102,7 +85,6 @@ class _Anotacao_do_usuarioState extends State<Anotacao_do_usuario> {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Exibição da miniatura da imagem, se disponível
               if (widget.anotacao.urlImagem != null &&
                   widget.anotacao.urlImagem!.isNotEmpty)
                 Padding(

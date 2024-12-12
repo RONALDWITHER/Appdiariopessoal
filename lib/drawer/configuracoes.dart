@@ -29,6 +29,14 @@ class _ConfiguracoesState extends State<Configuracoes> {
           centerTitle: true,
           backgroundColor: const Color(0xFF32CD99),
           iconTheme: const IconThemeData(color: Colors.white),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => Telainicial()));
+                },
+                icon: Icon(Icons.home))
+          ],
         ),
         drawer: Drawer(
           child: ListView(

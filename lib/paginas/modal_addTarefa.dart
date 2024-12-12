@@ -49,15 +49,30 @@ class _Modal_addTarefaState extends State<Modal_addTarefa> {
             Flexible(
               child: ListView(
                 children: [
-                  SizedBox(
-                    height: 250,
-                    child: _selectedImage != null
-                        ? Image.file(
+                  if (_selectedImage != null)
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => TelaImagemCompleta(
+                              imageFile: _selectedImage!,
+                            ),
+                          ),
+                        );
+                      },
+                      child: SizedBox(
+                        height: 150,
+                        width: 150,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: Image.file(
                             _selectedImage!,
                             fit: BoxFit.cover,
-                          )
-                        : const Text('Nenhuma imagem selecionada.'),
-                  ),
+                          ),
+                        ),
+                      ),
+                    ),
                 ],
               ),
             ),
@@ -81,22 +96,37 @@ class _Modal_addTarefaState extends State<Modal_addTarefa> {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () async {
-                String? imageUrl;
-                if (_selectedImage != null) {
-                  imageUrl = await _anotacaoServico
-                      .uploadImageToStorage(_selectedImage!);
-                }
-                nova_anotacao = Anotacoes(
-                  titulo_da_anotacao: _titulo_da_anotacao.text,
-                  texto_da_anotacao: _texto_da_anotacao.text,
-                  dataHorario: DateTime.now(),
-                  id: const Uuid().v1(),
-                  urlImagem: imageUrl,
-                );
+                _showLoadingDialog(context);
 
-                await _anotacaoServico.adicionarTarefa(nova_anotacao);
-                widget.mensagem(context);
-                Navigator.pop(context);
+                try {
+                  String? imageUrl;
+                  if (_selectedImage != null) {
+                    imageUrl = await _anotacaoServico
+                        .uploadImageToStorage(_selectedImage!);
+                  }
+                  final novaAnotacao = Anotacoes(
+                    titulo_da_anotacao: _titulo_da_anotacao.text,
+                    texto_da_anotacao: _texto_da_anotacao.text,
+                    dataHorario: DateTime.now(),
+                    id: const Uuid().v1(),
+                    urlImagem: imageUrl,
+                  );
+                  await _anotacaoServico.adicionarTarefa(novaAnotacao);
+
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                        content: Text('Anotação salva com sucesso!')),
+                  );
+                  Navigator.pop(context);
+                } catch (e) {
+                  // Mostra mensagem de erro
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Erro ao salvar anotação: $e')),
+                  );
+                } finally {
+                  // Fecha a tela de carregamento
+                  Navigator.pop(context);
+                }
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF32CD99),
@@ -109,6 +139,19 @@ class _Modal_addTarefaState extends State<Modal_addTarefa> {
           ],
         ),
       ),
+    );
+  }
+
+  void _showLoadingDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible:
+          false, // Impede que o usuário feche o diálogo manualmente
+      builder: (BuildContext context) {
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      },
     );
   }
 
@@ -136,5 +179,27 @@ class _Modal_addTarefaState extends State<Modal_addTarefa> {
         SnackBar(content: Text('Erro ao selecionar imagem: $e')),
       );
     }
+  }
+}
+
+class TelaImagemCompleta extends StatelessWidget {
+  final File imageFile;
+
+  TelaImagemCompleta({required this.imageFile});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Imagem Completa'),
+        backgroundColor: const Color(0xFF32CD99),
+      ),
+      body: Center(
+        child: Image.file(
+          imageFile,
+          fit: BoxFit.contain, // Ajusta a imagem ao tamanho da tela
+        ),
+      ),
+    );
   }
 }

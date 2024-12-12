@@ -53,13 +53,27 @@ class AnotacaoServico {
         .update(anotacao.toMap());
   }
 
-  Future<void> excluirAnotacao(Anotacoes anotacao) async {
-    await _firestore
-        .collection('usuarios')
-        .doc(userID)
-        .collection('anotacoes')
-        .doc(anotacao.id)
-        .delete();
+ Future<void> excluirAnotacaoComImagem(Anotacoes anotacao) async {
+    try {
+      // Exclui a imagem do Storage, se existir
+      if (anotacao.urlImagem != null && anotacao.urlImagem!.isNotEmpty) {
+        final ref = _storage.refFromURL(anotacao.urlImagem!);
+        await ref.delete();
+      }
+
+      // Exclui a anotação do Firestore
+      await _firestore
+          .collection('usuarios')
+          .doc(userID)
+          .collection('anotacoes')
+          .doc(anotacao.id)
+          .delete();
+
+      print('Anotação e imagem excluídas com sucesso.');
+    } catch (e) {
+      print('Erro ao excluir anotação ou imagem: $e');
+      throw Exception('Erro ao excluir a anotação ou a imagem: $e');
+    }
   }
 
   Stream<QuerySnapshot<Map<String, dynamic>>> conectarStreamTarefas() {

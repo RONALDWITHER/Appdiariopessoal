@@ -1,6 +1,7 @@
 import 'package:appdiario/models/anotacoes.dart';
 import 'package:appdiario/paginas/modal_addTarefa.dart';
 import 'package:appdiario/paginas/tela_detalhes._da_anotacao.dart';
+import 'package:appdiario/paginas/teladeanotar.dart';
 import 'package:appdiario/paginas/telapesquisa.dart';
 import 'package:appdiario/servicos/anotacao_servico.dart';
 import 'package:appdiario/widgets/drawer_telaInicial.dart';
@@ -107,13 +108,10 @@ class _TelainicialState extends State<Telainicial> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          showModalBottomSheet(
-            context: context,
-            builder: (BuildContext context) {
-              return Modal_addTarefa(
-                mensagem: mostrarSnackBar,
-              );
-            },
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => TelaAnotacoes(mensagem: mostrarSnackBar)),
           );
         },
         backgroundColor: const Color(0xFF32CD99),
