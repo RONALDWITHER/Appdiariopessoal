@@ -131,7 +131,7 @@ class _CalendarioState extends State<Calendario> {
 class DiaDetalhado extends StatelessWidget {
   final DateTime data;
 
-  const DiaDetalhado({super.key, required this.data, required});
+  const DiaDetalhado({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {
@@ -154,7 +154,14 @@ class DiaDetalhado extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             ElevatedButton.icon(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AgendaScreen(dataSelecionada: data), 
+                  ),
+                );
+              },
               icon: const Icon(Icons.calendar_today),
               label: const Text('Agenda'),
               style: ElevatedButton.styleFrom(
@@ -195,6 +202,7 @@ class DiaDetalhado extends StatelessWidget {
     );
   }
 }
+
 
 class TelaLembretes extends StatefulWidget {
   final DateTime dataSelecionada;
@@ -318,6 +326,102 @@ class _TelaLembretesState extends State<TelaLembretes> {
         },
         backgroundColor: const Color(0xFF32CD99),
         child: const Icon(Icons.add, color: Colors.white),
+      ),
+    );
+  }
+}
+
+class AgendaScreen extends StatefulWidget {
+  final DateTime dataSelecionada;
+
+  const AgendaScreen({super.key, required this.dataSelecionada});
+
+  @override
+  _AgendaScreenState createState() => _AgendaScreenState();
+}
+
+class _AgendaScreenState extends State<AgendaScreen> {
+  final TextEditingController _controller = TextEditingController();
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  bool _isSaving = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _carregarAnotacao();
+  }
+
+  void _carregarAnotacao() async {
+    final snapshot = await _firestore
+        .collection('agendas')
+        .doc('${widget.dataSelecionada.toIso8601String()}')
+        .get();
+
+    if (snapshot.exists) {
+      setState(() {
+        _controller.text = snapshot.data()?['lembrete'] ?? '';
+      });
+    }
+  }
+
+  void _salvarAnotacao() async {
+    setState(() {
+      _isSaving = true;
+    });
+
+    await _firestore
+        .collection('agendas')
+        .doc('${widget.dataSelecionada.toIso8601String()}')
+        .set({
+      'lembrete': _controller.text,
+      'data': widget.dataSelecionada.toIso8601String(),
+      'timestamp': FieldValue.serverTimestamp(),
+    });
+
+    setState(() {
+      _isSaving = false;
+    });
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('O seu lembrete foi salvo')),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Agenda - ${widget.dataSelecionada.day}/${widget.dataSelecionada.month}/${widget.dataSelecionada.year}'),
+        backgroundColor: const Color(0xFF32CD99),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.save),
+            onPressed: _salvarAnotacao,
+          ),
+        ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            Expanded(
+              child: TextField(
+                controller: _controller,
+                maxLines: null,
+                keyboardType: TextInputType.multiline,
+                decoration: const InputDecoration(
+                  hintText: 'Escreva...',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            ),
+            if (_isSaving)
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: CircularProgressIndicator(),
+              ),
+          ],
+        ),
       ),
     );
   }
