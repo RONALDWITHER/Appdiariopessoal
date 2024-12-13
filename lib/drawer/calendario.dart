@@ -337,7 +337,6 @@ class _TelaLembretesState extends State<TelaLembretes> {
     );
   }
 }
-
 class AgendaScreen extends StatefulWidget {
   final DateTime dataSelecionada;
 
@@ -348,40 +347,56 @@ class AgendaScreen extends StatefulWidget {
 }
 
 class _AgendaScreenState extends State<AgendaScreen> {
-  final TextEditingController _controller = TextEditingController();
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final Map<String, TextEditingController> _controllers = {};
   bool _isSaving = false;
+
+  List<String> _horarios = [
+    for (int i = 0; i < 24; i++) for (int j = 0; j < 60; j += 30) 
+      '${i.toString().padLeft(2, '0')}:${j.toString().padLeft(2, '0')}'
+  ];
 
   @override
   void initState() {
     super.initState();
-    _carregarAnotacao();
+    _carregarAnotacoes();
   }
 
-  void _carregarAnotacao() async {
+  void _carregarAnotacoes() async {
     final snapshot = await _firestore
         .collection('agendas')
         .doc('${widget.dataSelecionada.toIso8601String()}')
         .get();
 
     if (snapshot.exists) {
-      setState(() {
-        _controller.text = snapshot.data()?['lembrete'] ?? '';
-      });
+      final data = snapshot.data();
+      if (data != null) {
+        for (var horario in _horarios) {
+          _controllers[horario] = TextEditingController(
+            text: data[horario] ?? '',
+          );
+        }
+        setState(() {});
+      }
     }
   }
 
-  void _salvarAnotacao() async {
+  void _salvarAnotacoes() async {
     setState(() {
       _isSaving = true;
     });
+
+    final Map<String, String> anotacoes = {};
+    for (var horario in _horarios) {
+      anotacoes[horario] = _controllers[horario]?.text ?? '';
+    }
 
     await _firestore
         .collection('agendas')
         .doc('${widget.dataSelecionada.toIso8601String()}')
         .set({
-      'lembrete': _controller.text,
       'data': widget.dataSelecionada.toIso8601String(),
+      ...anotacoes,
       'timestamp': FieldValue.serverTimestamp(),
     });
 
@@ -390,47 +405,70 @@ class _AgendaScreenState extends State<AgendaScreen> {
     });
 
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('O seu lembrete foi salvo')),
+      const SnackBar(content: Text('Os compromissos foram salvos!')),
     );
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-            'Agenda - ${widget.dataSelecionada.day}/${widget.dataSelecionada.month}/${widget.dataSelecionada.year}'),
-        backgroundColor: const Color(0xFF32CD99),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.save),
-            onPressed: _salvarAnotacao,
-          ),
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Expanded(
-              child: TextField(
-                controller: _controller,
-                maxLines: null,
-                keyboardType: TextInputType.multiline,
-                decoration: const InputDecoration(
-                  hintText: 'Escreva...',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-            ),
-            if (_isSaving)
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: CircularProgressIndicator(),
-              ),
-          ],
-        ),
-      ),
-    );
+  void dispose() {
+    for (var controller in _controllers.values) {
+      controller.dispose();
+    }
+    super.dispose();
   }
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(
+      title: Text(
+          'Agenda - ${widget.dataSelecionada.day}/${widget.dataSelecionada.month}/${widget.dataSelecionada.year}'),
+      backgroundColor: const Color(0xFF32CD99),
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.save),
+          onPressed: _salvarAnotacoes,
+        ),
+      ],
+    ),
+    body: _isSaving
+        ? const Center(child: CircularProgressIndicator())
+        : ListView.builder(
+            itemCount: _horarios.length,
+            itemBuilder: (context, index) {
+              final horario = _horarios[index];
+              _controllers[horario] ??= TextEditingController();
+
+              return Padding(
+                padding: const EdgeInsets.symmetric(
+                    vertical: 8.0, horizontal: 16.0),
+                child: Row(
+                  children: [
+                    Text(
+                      horario,
+                      style: const TextStyle(fontSize: 16),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: TextField(
+                        controller: _controllers[horario],
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.delete),
+                      onPressed: () {
+                        setState(() {
+                          _controllers[horario]?.clear();
+                        });
+                      },
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+  );
+}
 }
