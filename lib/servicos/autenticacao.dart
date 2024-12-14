@@ -4,7 +4,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 class AutenticacaoServicos {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
-  Future<String> cadastrarUsuarios({
+  Future<String?> cadastrarUsuarios({
     required String nome,
     required String senha,
     required String email,
@@ -19,7 +19,7 @@ class AutenticacaoServicos {
       if (userCredential.user != null) {
         await userCredential.user!.updateDisplayName(nome);
       }
-      return "Usuário cadastrado com sucesso!";
+      return null;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
         return "O e-mail já está em uso. Por favor, tente outro.";
