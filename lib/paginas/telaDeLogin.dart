@@ -131,7 +131,7 @@ class _telaDeloginState extends State<telaDelogin> {
                           ElevatedButton(
                             onPressed: () {
                               _autenticacaoServicos
-                                  .logarComGoogle()
+                                  .signInWithGoogle()
                                   .then((value) {
                                 if (value != null) {
                                   ScaffoldMessenger.of(context)

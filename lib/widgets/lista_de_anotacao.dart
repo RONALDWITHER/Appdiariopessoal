@@ -66,8 +66,15 @@ class _Anotacao_do_usuarioState extends State<Anotacao_do_usuario> {
             icon: Icons.share,
           ),
           SlidableAction(
-            onPressed: (context) =>
-                _anotacaoServico.excluirAnotacaoComImagem(widget.anotacao),
+            onPressed: (context) {
+              _anotacaoServico.excluirAnotacaoComImagem(widget.anotacao);
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Anotação excluida com sucesso!'),
+                  backgroundColor: Colors.red,
+                ),
+              );
+            },
             backgroundColor: Colors.red,
             icon: Icons.delete,
           ),
@@ -141,7 +148,7 @@ class _Anotacao_do_usuarioState extends State<Anotacao_do_usuario> {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      'Data: ${widget.anotacao.dataHorario.toString().split(" ")[0]}',
+                      'Data: ${DateFormat('dd/MM/yyyy').format(widget.anotacao.dataHorario)}',
                       style: Theme.of(context).textTheme.bodySmall!.copyWith(
                             fontSize: 12,
                           ),

@@ -3,7 +3,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 class AutenticacaoServicos {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   Future<String> cadastrarUsuarios({
     required String nome,
@@ -49,12 +48,11 @@ class AutenticacaoServicos {
     }
   }
 
-  Future<String?> logarComGoogle() async {
+  Future<String?> signInWithGoogle() async {
     try {
-      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
-
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
       if (googleUser == null) {
-        return "Login cancelado pelo usuário.";
+        return 'Login cancelado pelo usuário.';
       }
 
       final GoogleSignInAuthentication googleAuth =
@@ -65,18 +63,15 @@ class AutenticacaoServicos {
         idToken: googleAuth.idToken,
       );
 
-      await _firebaseAuth.signInWithCredential(credential);
+      await FirebaseAuth.instance.signInWithCredential(credential);
 
-      return null; // Login bem-sucedido, nenhum erro
-    } on FirebaseAuthException catch (e) {
-      return "Erro ao logar com o Google: ${e.message}";
+      return null;
     } catch (e) {
-      return "Erro inesperado: $e";
+      return 'erro ao fazer login $e';
     }
   }
 
   Future<void> deslogar() async {
-    await _googleSignIn.signOut(); // Deslogar do Google
     return _firebaseAuth.signOut(); // Deslogar do Firebase
   }
 }

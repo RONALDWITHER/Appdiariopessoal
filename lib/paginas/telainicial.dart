@@ -22,8 +22,6 @@ class _TelainicialState extends State<Telainicial> {
   Anotacoes? anotacao_deletada;
   int? indice_da_tarefa_del;
 
-  void mostrarSnackBar(BuildContext context) {}
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +43,7 @@ class _TelainicialState extends State<Telainicial> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => TelaPesquisa(),
+                  builder: (context) => const TelaPesquisa(),
                 ),
               );
             },
@@ -63,7 +61,7 @@ class _TelainicialState extends State<Telainicial> {
                   stream: _anotacaservico.conectarStreamTarefas(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(
+                      return const Center(
                         child: CircularProgressIndicator(),
                       );
                     } else {
@@ -109,8 +107,7 @@ class _TelainicialState extends State<Telainicial> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(
-                builder: (context) => TelaAnotacoes(mensagem: mostrarSnackBar)),
+            MaterialPageRoute(builder: (context) => TelaAnotacoes()),
           );
         },
         backgroundColor: const Color(0xFF32CD99),

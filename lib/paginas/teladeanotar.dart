@@ -6,9 +6,7 @@ import 'package:appdiario/servicos/anotacao_servico.dart';
 import 'package:uuid/uuid.dart';
 
 class TelaAnotacoes extends StatefulWidget {
-  final void Function(BuildContext) mensagem;
-
-  TelaAnotacoes({required this.mensagem});
+  TelaAnotacoes({super.key});
 
   @override
   _TelaAnotacoesState createState() => _TelaAnotacoesState();
@@ -135,7 +133,10 @@ class _TelaAnotacoesState extends State<TelaAnotacoes> {
               await _anotacaoServico.adicionarTarefa(novaAnotacao);
 
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Anotação salva com sucesso!')),
+                const SnackBar(
+                  content: Text('Anotação salva com sucesso!'),
+                  backgroundColor: Colors.green,
+                ),
               );
               Navigator.pop(context);
             } catch (e) {
