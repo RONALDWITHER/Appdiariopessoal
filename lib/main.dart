@@ -1,8 +1,8 @@
-import 'package:appdiario/firebase_options.dart';
-import 'package:appdiario/logotela.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:appdiario/firebase_options.dart';
+import 'package:appdiario/logotela.dart';
 
 ValueNotifier<ThemeMode> themeNotifier = ValueNotifier(ThemeMode.light);
 
@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [
-            Locale('pt', 'BR'), // Configurando para Português do Brasil
+            Locale('pt', 'BR'),
           ],
         );
       },

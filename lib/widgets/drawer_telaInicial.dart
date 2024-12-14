@@ -1,13 +1,18 @@
 import 'package:appdiario/drawer/calendario.dart';
-import 'package:appdiario/drawer/configuracoes.dart';
 import 'package:appdiario/paginas/telaDeLogin.dart';
+import 'package:appdiario/paginas/telainicial.dart';
 import 'package:flutter/material.dart';
+import 'package:appdiario/main.dart';
 
-class DrawerTelainicial extends StatelessWidget {
-  String user;
+class DrawerTelainicial extends StatefulWidget {
+  final String user;
+  const DrawerTelainicial({super.key, required this.user});
 
-  DrawerTelainicial({super.key, required this.user});
+  @override
+  _DrawerTelainicialState createState() => _DrawerTelainicialState();
+}
 
+class _DrawerTelainicialState extends State<DrawerTelainicial> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -27,7 +32,7 @@ class DrawerTelainicial extends StatelessWidget {
                     fontSize: 24,
                   ),
                 ),
-                Text('Bem-vindo, $user'),
+                Text('Bem-vindo, ${widget.user}'),
               ],
             ),
           ),
@@ -36,6 +41,10 @@ class DrawerTelainicial extends StatelessWidget {
             title: const Text('Início'),
             onTap: () {
               Navigator.pop(context);
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => Telainicial()),
+              );
             },
           ),
           ListTile(
@@ -50,21 +59,22 @@ class DrawerTelainicial extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.settings),
-            title: const Text('Configurações'),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => Configuracoes()),
-              );
-            },
-          ),
+              leading: const Icon(Icons.dark_mode),
+              title: const Text('Alternar Tema'),
+              trailing: Switch(
+                value: themeNotifier.value == ThemeMode.dark,
+                onChanged: (bool value) {
+                  setState(() {
+                    themeNotifier.value =
+                        value ? ThemeMode.dark : ThemeMode.light;
+                  });
+                },
+              )),
           ListTile(
             leading: const Icon(Icons.exit_to_app),
             title: const Text('Sair'),
             onTap: () {
-              Navigator.pop(context); // Fecha o Drawer
+              Navigator.pop(context);
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => const telaDelogin()),

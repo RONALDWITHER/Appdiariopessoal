@@ -1,10 +1,9 @@
 import 'package:appdiario/servicos/lembrete_servico.dart';
+import 'package:appdiario/widgets/drawer_telaInicial.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:appdiario/paginas/telainicial.dart';
-import 'package:appdiario/paginas/telacadastro.dart';
-import 'package:appdiario/drawer/configuracoes.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class Calendario extends StatefulWidget {
@@ -47,70 +46,7 @@ class _CalendarioState extends State<Calendario> {
               icon: Icon(Icons.home))
         ],
       ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              decoration: const BoxDecoration(
-                color: Color(0xFF32CD99),
-              ),
-              child: Column(
-                children: [
-                  const Text(
-                    'Menu',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                    ),
-                  ),
-                  Text('Bem-vindo, ${user?.displayName ?? 'Usuário'}!'),
-                ],
-              ),
-            ),
-            ListTile(
-              leading: const Icon(Icons.home),
-              title: const Text('Início'),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => Telainicial()),
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.calendar_month_outlined),
-              title: const Text('Calendário'),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.settings),
-              title: const Text('Configurações'),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => Configuracoes()),
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.exit_to_app),
-              title: const Text('Sair'),
-              onTap: () {
-                FirebaseAuth.instance.signOut();
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => Telacadastro()),
-                );
-              },
-            ),
-          ],
-        ),
-      ),
+      drawer: DrawerTelainicial(user: user?.displayName ?? 'Usuário'),
       body: TableCalendar(
         locale: 'pt_BR',
         firstDay: kFirstDay,
@@ -337,6 +273,7 @@ class _TelaLembretesState extends State<TelaLembretes> {
     );
   }
 }
+
 class AgendaScreen extends StatefulWidget {
   final DateTime dataSelecionada;
 
@@ -352,8 +289,9 @@ class _AgendaScreenState extends State<AgendaScreen> {
   bool _isSaving = false;
 
   List<String> _horarios = [
-    for (int i = 0; i < 24; i++) for (int j = 0; j < 60; j += 30) 
-      '${i.toString().padLeft(2, '0')}:${j.toString().padLeft(2, '0')}'
+    for (int i = 0; i < 24; i++)
+      for (int j = 0; j < 60; j += 30)
+        '${i.toString().padLeft(2, '0')}:${j.toString().padLeft(2, '0')}'
   ];
 
   @override
@@ -416,59 +354,60 @@ class _AgendaScreenState extends State<AgendaScreen> {
     }
     super.dispose();
   }
-@override
-Widget build(BuildContext context) {
-  return Scaffold(
-    appBar: AppBar(
-      title: Text(
-          'Agenda - ${widget.dataSelecionada.day}/${widget.dataSelecionada.month}/${widget.dataSelecionada.year}'),
-      backgroundColor: const Color(0xFF32CD99),
-      actions: [
-        IconButton(
-          icon: const Icon(Icons.save),
-          onPressed: _salvarAnotacoes,
-        ),
-      ],
-    ),
-    body: _isSaving
-        ? const Center(child: CircularProgressIndicator())
-        : ListView.builder(
-            itemCount: _horarios.length,
-            itemBuilder: (context, index) {
-              final horario = _horarios[index];
-              _controllers[horario] ??= TextEditingController();
 
-              return Padding(
-                padding: const EdgeInsets.symmetric(
-                    vertical: 8.0, horizontal: 16.0),
-                child: Row(
-                  children: [
-                    Text(
-                      horario,
-                      style: const TextStyle(fontSize: 16),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: TextField(
-                        controller: _controllers[horario],
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+            'Agenda - ${widget.dataSelecionada.day}/${widget.dataSelecionada.month}/${widget.dataSelecionada.year}'),
+        backgroundColor: const Color(0xFF32CD99),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.save),
+            onPressed: _salvarAnotacoes,
+          ),
+        ],
+      ),
+      body: _isSaving
+          ? const Center(child: CircularProgressIndicator())
+          : ListView.builder(
+              itemCount: _horarios.length,
+              itemBuilder: (context, index) {
+                final horario = _horarios[index];
+                _controllers[horario] ??= TextEditingController();
+
+                return Padding(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 8.0, horizontal: 16.0),
+                  child: Row(
+                    children: [
+                      Text(
+                        horario,
+                        style: const TextStyle(fontSize: 16),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: TextField(
+                          controller: _controllers[horario],
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                          ),
                         ),
                       ),
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.delete),
-                      onPressed: () {
-                        setState(() {
-                          _controllers[horario]?.clear();
-                        });
-                      },
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
-  );
-}
+                      IconButton(
+                        icon: const Icon(Icons.delete),
+                        onPressed: () {
+                          setState(() {
+                            _controllers[horario]?.clear();
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+    );
+  }
 }

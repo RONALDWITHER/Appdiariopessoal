@@ -1,5 +1,4 @@
 import 'package:appdiario/models/anotacoes.dart';
-import 'package:appdiario/paginas/modal_addTarefa.dart';
 import 'package:appdiario/paginas/tela_detalhes._da_anotacao.dart';
 import 'package:appdiario/paginas/teladeanotar.dart';
 import 'package:appdiario/paginas/telapesquisa.dart';

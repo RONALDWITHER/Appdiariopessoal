@@ -7,7 +7,7 @@ import 'package:uuid/uuid.dart';
 
 class AnotacaoServico {
   String userID;
-  final CollectionReference _colecaoAnotacoes =
+  final CollectionReference =
       FirebaseFirestore.instance.collection('anotacoes');
 
   AnotacaoServico() : userID = FirebaseAuth.instance.currentUser!.uid;
@@ -26,7 +26,10 @@ class AnotacaoServico {
   Future<List<Anotacoes>> buscarAnotacoesPorTitulo(
       String titulo_da_anotacao) async {
     try {
-      QuerySnapshot querySnapshot = await _colecaoAnotacoes
+      QuerySnapshot querySnapshot = await _firestore
+          .collection('usuarios')
+          .doc(userID)
+          .collection('anotacoes')
           .where('titulo_da_anotacao',
               isGreaterThanOrEqualTo: titulo_da_anotacao)
           .where('titulo_da_anotacao',
@@ -53,15 +56,13 @@ class AnotacaoServico {
         .update(anotacao.toMap());
   }
 
- Future<void> excluirAnotacaoComImagem(Anotacoes anotacao) async {
+  Future<void> excluirAnotacaoComImagem(Anotacoes anotacao) async {
     try {
-      // Exclui a imagem do Storage, se existir
       if (anotacao.urlImagem != null && anotacao.urlImagem!.isNotEmpty) {
         final ref = _storage.refFromURL(anotacao.urlImagem!);
         await ref.delete();
       }
 
-      // Exclui a anotação do Firestore
       await _firestore
           .collection('usuarios')
           .doc(userID)
