@@ -1,4 +1,4 @@
-<h1>Life Log</h1> 
+<h1>Life Log - Diário Pessoal</h1> 
 
 <p align="center">
   <img alt="Static Badge" src="https://img.shields.io/badge/framework-blue?style=for-the-badge&logo=flutter&logoColor=blue&label=flutter&labelColor=black">
