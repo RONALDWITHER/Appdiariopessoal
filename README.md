@@ -42,13 +42,11 @@ O Life Log é o lugar ideal para guardar suas memórias e manter sua rotina orga
 
 :heavy_check_mark: Criar lembretes  
 
-## Layout ou Deploy da Aplicação :dash:
+## Layout da Aplicação :dash:
 
 > Link do deploy da aplicação: https://certificates-for-everyone-womakerscode.netlify.app/
 
 ... 
-Se ainda não houver deploy, insira capturas de tela da aplicação ou gifs
-
 ## Pré-Requisitos
 
 :warning: [Node](https://nodejs.org/en/download/)
@@ -73,7 +71,7 @@ git clone https://github.com/RONALDWITHER/Appdiariopessoal.git
 Após clonar aperte a tecla (F5) para rodar a aplicação
 
 ...
-## Como rodar os testes 🔍
+## Como rodar os testes :mag:
 
 -Instale todos os componentes dos Pré-Requisitos
 
