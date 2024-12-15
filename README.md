@@ -114,6 +114,7 @@ Fluxo Principal:
 
 Em [issues]() foram abertos alguns problemas gerados durante o desenvolvimento desse projeto e como foram resolvidos. 
 
+...
 ## Tarefas em aberto
 
 Se for o caso, liste tarefas/funcionalidades que ainda precisam ser implementadas na sua aplicação
@@ -124,6 +125,7 @@ Se for o caso, liste tarefas/funcionalidades que ainda precisam ser implementada
 
 :memo: Tarefa 3 
 
+...
 ## Desenvolvedores/Contribuintes :octocat:
 
 
