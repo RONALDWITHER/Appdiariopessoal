@@ -112,6 +112,7 @@ Fluxo Principal:
 - [Flutter](https://www.flutter.dev)
 - Dart
 - [Firebase](https://firebase.google.com)
+- [Gradle](https://gradle.org)
 
 ...
 ## Resolvendo Problemas :exclamation:
