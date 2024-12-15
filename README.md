@@ -90,6 +90,7 @@ Em seguida no terminal, cole o comando:
 flutter run
 ```
 
+...
 ## Casos de Uso
 
 Cadastro de Usuário.
