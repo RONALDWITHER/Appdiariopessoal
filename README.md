@@ -60,7 +60,7 @@ Se ainda não houver deploy, insira capturas de tela da aplicação ou gifs
 
 :warning: [Gradle](https://gradle.org)
 
-:warning: [Java Development Kit]
+:warning: [Java Development Kit](https://www.oracle.com/java/technologies/downloads/)
 
 ...
 
