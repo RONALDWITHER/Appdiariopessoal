@@ -4,7 +4,7 @@ import 'package:appdiario/servicos/anotacao_servico.dart';
 import 'package:appdiario/paginas/tela_detalhes._da_anotacao.dart';
 
 class TelaPesquisa extends StatefulWidget {
-  const TelaPesquisa({Key? key}) : super(key: key);
+  const TelaPesquisa({super.key});
 
   @override
   State<TelaPesquisa> createState() => _TelaPesquisaState();
@@ -38,13 +38,15 @@ class _TelaPesquisaState extends State<TelaPesquisa> {
           decoration: const InputDecoration(
             hintText: 'Pesquisar pelo título...',
             border: InputBorder.none,
-            hintStyle: TextStyle(color: Colors.white70),
+            hintStyle: TextStyle(color: Color.fromARGB(179, 255, 255, 255)),
           ),
-          style: const TextStyle(color: Colors.white, fontSize: 18),
+          style: const TextStyle(
+              color: Color.fromARGB(255, 255, 255, 255), fontSize: 18),
           onChanged: (query) => _realizarPesquisa(query),
         ),
         backgroundColor: const Color(0xFF32CD99),
-        iconTheme: const IconThemeData(color: Colors.white),
+        iconTheme:
+            const IconThemeData(color: Color.fromARGB(255, 255, 255, 255)),
       ),
       body: _resultadosPesquisa.isNotEmpty
           ? ListView.builder(

@@ -50,12 +50,10 @@ class _Anotacao_do_usuarioState extends State<Anotacao_do_usuario> {
                   DateFormat('dd/MM/yyyy').format(widget.anotacao.dataHorario);
 
               String anotacao = '''
--- *Título: ${widget.anotacao.titulo_da_anotacao}*
-
--- Texto : ${widget.anotacao.texto_da_anotacao}
-
-*-- Data : $dataFormatada*
-'''
+              -- *Título: ${widget.anotacao.titulo_da_anotacao}*
+              -- Texto : ${widget.anotacao.texto_da_anotacao}
+              *-- Data : $dataFormatada*
+                '''
                   .trim();
 
               String anotacaoFormatada =
@@ -71,11 +69,11 @@ class _Anotacao_do_usuarioState extends State<Anotacao_do_usuario> {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
                   content: Text('Anotação excluida com sucesso!'),
-                  backgroundColor: Colors.red,
+                  backgroundColor: Color.fromARGB(255, 244, 67, 54),
                 ),
               );
             },
-            backgroundColor: Colors.red,
+            backgroundColor: const Color.fromARGB(255, 244, 67, 54),
             icon: Icons.delete,
           ),
         ],
@@ -84,7 +82,7 @@ class _Anotacao_do_usuarioState extends State<Anotacao_do_usuario> {
         onTap: widget.onClick,
         child: Container(
           decoration: BoxDecoration(
-            color: Theme.of(context).cardColor, // Cor do tema atual
+            color: Theme.of(context).cardColor,
             borderRadius: BorderRadius.circular(8),
           ),
           margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),

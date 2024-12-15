@@ -5,14 +5,14 @@ import 'package:appdiario/servicos/autenticacao.dart';
 import 'package:flutter/material.dart';
 import 'recup_senha.dart';
 
-class telaDelogin extends StatefulWidget {
-  const telaDelogin({super.key});
+class TeladeLogin extends StatefulWidget {
+  const TeladeLogin({super.key});
 
   @override
-  State<telaDelogin> createState() => _telaDeloginState();
+  State<TeladeLogin> createState() => _telaDeloginState();
 }
 
-class _telaDeloginState extends State<telaDelogin> {
+class _telaDeloginState extends State<TeladeLogin> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   AutenticacaoServicos _autenticacaoServicos = AutenticacaoServicos();
@@ -33,7 +33,9 @@ class _telaDeloginState extends State<telaDelogin> {
 
         return Scaffold(
           resizeToAvoidBottomInset: true,
-          backgroundColor: isDarkMode ? Colors.black : Colors.white,
+          backgroundColor: isDarkMode
+              ? const Color.fromARGB(255, 10, 10, 10)
+              : const Color.fromARGB(255, 247, 244, 244),
           body: SingleChildScrollView(
             child: Center(
               child: Column(
@@ -48,7 +50,9 @@ class _telaDeloginState extends State<telaDelogin> {
                     padding: const EdgeInsets.all(16.0),
                     child: Container(
                       decoration: BoxDecoration(
-                        color: isDarkMode ? Colors.black : Colors.white,
+                        color: isDarkMode
+                            ? const Color.fromARGB(255, 13, 13, 13)
+                            : const Color.fromARGB(255, 255, 255, 255),
                       ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -69,15 +73,19 @@ class _telaDeloginState extends State<telaDelogin> {
                               hintText: "emailexemplo@gmail.com",
                               hintStyle: TextStyle(
                                 color: isDarkMode
-                                    ? Colors.grey[500]
+                                    ? const Color.fromARGB(255, 158, 158, 158)
                                     : const Color.fromARGB(151, 103, 103, 104),
                               ),
                               labelStyle: TextStyle(
-                                color: isDarkMode ? Colors.white : Colors.black,
+                                color: isDarkMode
+                                    ? const Color.fromARGB(255, 255, 255, 255)
+                                    : const Color.fromARGB(255, 9, 9, 9),
                               ),
                             ),
                             style: TextStyle(
-                              color: isDarkMode ? Colors.white : Colors.black,
+                              color: isDarkMode
+                                  ? const Color.fromARGB(255, 255, 255, 255)
+                                  : const Color.fromARGB(255, 14, 14, 14),
                             ),
                           ),
                           const SizedBox(height: 15),
@@ -87,11 +95,15 @@ class _telaDeloginState extends State<telaDelogin> {
                             decoration: InputDecoration(
                               labelText: "Senha",
                               labelStyle: TextStyle(
-                                color: isDarkMode ? Colors.white : Colors.black,
+                                color: isDarkMode
+                                    ? const Color.fromARGB(255, 255, 255, 255)
+                                    : const Color.fromARGB(255, 14, 14, 14),
                               ),
                             ),
                             style: TextStyle(
-                              color: isDarkMode ? Colors.white : Colors.black,
+                              color: isDarkMode
+                                  ? const Color.fromARGB(255, 255, 255, 255)
+                                  : const Color.fromARGB(255, 11, 11, 11),
                             ),
                           ),
                           const SizedBox(height: 15),
@@ -137,20 +149,36 @@ class _telaDeloginState extends State<telaDelogin> {
                                   ScaffoldMessenger.of(context)
                                       .showSnackBar(SnackBar(
                                     content: Text(value),
-                                    backgroundColor: Colors.red,
+                                    backgroundColor:
+                                        const Color.fromARGB(255, 244, 67, 54),
                                   ));
                                 } else {
                                   Navigator.of(context).pushReplacement(
-                                      MaterialPageRoute(
-                                          builder: (context) => Telainicial()));
+                                    MaterialPageRoute(
+                                        builder: (context) => Telainicial()),
+                                  );
                                 }
                               });
                             },
-                            child: const Text(
-                              "Login com o Google",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w500),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  'assets/imagens/google_icon.png',
+                                  height: 24,
+                                  width: 24,
+                                ),
+                                const SizedBox(width: 10),
+                                const Text(
+                                  "Login com o Google",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                           const SizedBox(height: 15),

@@ -1,9 +1,9 @@
-import 'package:appdiario/paginas/telaDeLogin.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:appdiario/firebase_options.dart';
 import 'package:appdiario/logotela.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 ValueNotifier<ThemeMode> themeNotifier = ValueNotifier(ThemeMode.light);
 
@@ -12,7 +12,19 @@ void main() async {
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
+  final prefs = await SharedPreferences.getInstance();
+  final isDarkTheme = prefs.getBool('isDarkTheme') ?? false;
+
+  themeNotifier.value = isDarkTheme ? ThemeMode.dark : ThemeMode.light;
+
   runApp(const MyApp());
+}
+
+Future<void> toggleTheme(bool isDark) async {
+  themeNotifier.value = isDark ? ThemeMode.dark : ThemeMode.light;
+
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.setBool('isDarkTheme', isDark);
 }
 
 class MyApp extends StatelessWidget {

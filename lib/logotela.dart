@@ -26,7 +26,7 @@ class _LogotelaState extends State<Logotela> {
         );
       } else {
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => telaDelogin()),
+          MaterialPageRoute(builder: (context) => const TeladeLogin()),
         );
       }
     });
@@ -41,8 +41,13 @@ class _LogotelaState extends State<Logotela> {
           children: [
             Image.asset(
               'assets/imagens/logo.png',
-              width: 300,
-              height: 300,
+              width: 400,
+              height: 200,
+            ),
+            Image.asset(
+              'assets/imagens/lifelog.png',
+              width: 400,
+              height: 200,
             ),
             const SizedBox(height: 20),
           ],

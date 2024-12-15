@@ -167,6 +167,48 @@ class _TelacadastroState extends State<Telacadastro> {
                                   ],
                                 ),
                               ),
+                              ElevatedButton(
+                                onPressed: () {
+                                  _autenticacaoServicos
+                                      .signInWithGoogle()
+                                      .then((value) {
+                                    if (value != null) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(SnackBar(
+                                        content: Text(value),
+                                        backgroundColor: const Color.fromARGB(
+                                            255, 244, 67, 54),
+                                      ));
+                                    } else {
+                                      Navigator.of(context).pushReplacement(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                Telainicial()),
+                                      );
+                                    }
+                                  });
+                                },
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Image.asset(
+                                      'assets/imagens/google_icon.png',
+                                      height: 24,
+                                      width: 24,
+                                    ),
+                                    const SizedBox(width: 10),
+                                    const Text(
+                                      "Cadastrar com o Google",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                               const SizedBox(height: 15),
                               Row(
                                 mainAxisSize: MainAxisSize.min,
@@ -184,7 +226,7 @@ class _TelacadastroState extends State<Telacadastro> {
                                       Navigator.of(context).pushReplacement(
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                telaDelogin()),
+                                                const TeladeLogin()),
                                       );
                                     },
                                     child: const Text(

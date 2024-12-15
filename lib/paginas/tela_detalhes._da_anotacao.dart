@@ -38,7 +38,7 @@ class _TelaDetalhesAnotacaoState extends State<TelaDetalhesAnotacao> {
               'Criado em: ${DateFormat('dd/MM/yyyy HH:mm').format(widget.anotacao.dataHorario)}',
               style: const TextStyle(
                 fontSize: 14,
-                color: Colors.grey,
+                color: Color.fromARGB(255, 158, 158, 158),
               ),
             ),
             const SizedBox(height: 16),
@@ -68,14 +68,15 @@ class _TelaDetalhesAnotacaoState extends State<TelaDetalhesAnotacao> {
                                     .clamp(0.0, 1.0);
                                 return Column(
                                   children: [
-                                    Expanded(
+                                    const Expanded(
                                       child: const Center(
                                         child: Text('Carregando imagem...'),
                                       ),
                                     ),
                                     LinearProgressIndicator(
                                       value: _loadingProgress,
-                                      backgroundColor: Colors.grey[300],
+                                      backgroundColor: const Color.fromARGB(
+                                          255, 224, 224, 224),
                                       color: const Color(0xFF32CD99),
                                     ),
                                   ],
@@ -86,7 +87,8 @@ class _TelaDetalhesAnotacaoState extends State<TelaDetalhesAnotacao> {
                               return const Center(
                                 child: Text(
                                   'Erro ao carregar imagem.',
-                                  style: TextStyle(color: Colors.red),
+                                  style: TextStyle(
+                                      color: Color.fromARGB(255, 241, 68, 55)),
                                 ),
                               );
                             },
@@ -97,7 +99,8 @@ class _TelaDetalhesAnotacaoState extends State<TelaDetalhesAnotacao> {
                   : const Center(
                       child: Text(
                         'Nenhuma imagem anexada.',
-                        style: TextStyle(color: Colors.grey),
+                        style: TextStyle(
+                            color: Color.fromARGB(255, 158, 158, 158)),
                       ),
                     ),
             ),

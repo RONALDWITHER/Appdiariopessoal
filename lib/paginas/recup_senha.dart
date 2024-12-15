@@ -38,7 +38,7 @@ class _TelaRecuperacaoSenhaState extends State<TelaRecuperacaoSenha> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Recuperar Senha"),
-        backgroundColor: Color(0xFF32CD99),
+        backgroundColor: const Color(0xFF32CD99),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

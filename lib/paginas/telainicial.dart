@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class Telainicial extends StatefulWidget {
-  Telainicial({super.key});
+  const Telainicial({super.key});
 
   @override
   State<Telainicial> createState() => _TelainicialState();
@@ -29,16 +29,18 @@ class _TelainicialState extends State<Telainicial> {
         title: const Text(
           'Diário Pessoal',
           style: TextStyle(
-            color: Colors.white,
+            color: Color.fromARGB(255, 255, 255, 255),
             fontWeight: FontWeight.w500,
           ),
         ),
         centerTitle: true,
         backgroundColor: const Color(0xFF32CD99),
-        iconTheme: const IconThemeData(color: Colors.white),
+        iconTheme:
+            const IconThemeData(color: Color.fromARGB(255, 252, 250, 250)),
         actions: [
           IconButton(
-            icon: const Icon(Icons.search, color: Colors.white),
+            icon: const Icon(Icons.search,
+                color: Color.fromARGB(255, 255, 255, 255)),
             onPressed: () {
               Navigator.push(
                 context,
@@ -113,7 +115,7 @@ class _TelainicialState extends State<Telainicial> {
         backgroundColor: const Color(0xFF32CD99),
         label: const Icon(
           Icons.add,
-          color: Colors.white,
+          color: Color.fromARGB(255, 255, 255, 255),
           size: 30,
         ),
       ),

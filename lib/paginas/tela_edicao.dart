@@ -35,28 +35,28 @@ class _Tela_editarAnotacaoState extends State<Tela_editarAnotacao> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Edição de anotação',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
         ),
-        backgroundColor: Color(0xFF32CD99),
+        backgroundColor: const Color(0xFF32CD99),
         centerTitle: true,
       ),
       body: Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           children: [
             TextField(
               controller: controlar_titulo,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
               ),
-              decoration: InputDecoration(),
+              decoration: const InputDecoration(),
             ),
             TextField(
               controller: controlar_texto,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 border: InputBorder.none,
               ),
               maxLines: null,
@@ -79,10 +79,10 @@ class _Tela_editarAnotacaoState extends State<Tela_editarAnotacao> {
           Navigator.pop(context);
         },
         backgroundColor: const Color(0xFF32CD99),
-        label: Text(
+        label: const Text(
           'Salvar alteraões',
           style: TextStyle(
-            color: Colors.white,
+            color: Color.fromARGB(255, 242, 241, 241),
           ),
         ),
       ),

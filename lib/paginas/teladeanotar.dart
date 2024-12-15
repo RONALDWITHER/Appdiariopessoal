@@ -6,7 +6,7 @@ import 'package:appdiario/servicos/anotacao_servico.dart';
 import 'package:uuid/uuid.dart';
 
 class TelaAnotacoes extends StatefulWidget {
-  TelaAnotacoes({super.key});
+  const TelaAnotacoes({super.key});
 
   @override
   _TelaAnotacoesState createState() => _TelaAnotacoesState();
@@ -27,7 +27,7 @@ class _TelaAnotacoesState extends State<TelaAnotacoes> {
         title: const Text(
           'Nova Anotação',
           style: TextStyle(
-            color: Colors.white,
+            color: Color.fromARGB(255, 255, 255, 255),
           ),
         ),
         backgroundColor: const Color(0xFF32CD99),
@@ -53,7 +53,7 @@ class _TelaAnotacoesState extends State<TelaAnotacoes> {
                         hintText: 'Comece a escrever...',
                         border: InputBorder.none,
                       ),
-                      maxLines: null, // Permite múltiplas linhas
+                      maxLines: null,
                     ),
                     const SizedBox(height: 20),
                     if (_selectedImage != null)
@@ -135,24 +135,22 @@ class _TelaAnotacoesState extends State<TelaAnotacoes> {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
                   content: Text('Anotação salva com sucesso!'),
-                  backgroundColor: Colors.green,
+                  backgroundColor: Color.fromARGB(255, 76, 175, 80),
                 ),
               );
               Navigator.pop(context);
             } catch (e) {
-              // Mostra mensagem de erro
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text('Erro ao salvar anotação: $e')),
               );
             } finally {
-              // Fecha a tela de carregamento
               Navigator.pop(context);
             }
           },
           backgroundColor: const Color(0xFF32CD99),
-          label: Text(
+          label: const Text(
             'Salvar anotação',
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(color: const Color.fromARGB(255, 255, 255, 255)),
           )),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
@@ -161,8 +159,7 @@ class _TelaAnotacoesState extends State<TelaAnotacoes> {
   void _showLoadingDialog(BuildContext context) {
     showDialog(
       context: context,
-      barrierDismissible:
-          false, // Impede que o usuário feche o diálogo manualmente
+      barrierDismissible: false,
       builder: (BuildContext context) {
         return Center(
           child: CircularProgressIndicator(),
@@ -173,7 +170,6 @@ class _TelaAnotacoesState extends State<TelaAnotacoes> {
 
   void _uploadImage({required bool iscamera}) async {
     try {
-      // Mostra a tela de carregamento
       _showLoadingDialog(context);
 
       ImagePicker imagePicker = ImagePicker();
@@ -182,10 +178,7 @@ class _TelaAnotacoesState extends State<TelaAnotacoes> {
         maxHeight: 2000,
         maxWidth: 2000,
       );
-
-      // Simula um atraso ou processamento (exemplo: upload)
-      await Future.delayed(Duration(seconds: 2)); // Remova isso no uso real
-
+      await Future.delayed(Duration(seconds: 2));
       if (image != null) {
         setState(() {
           _selectedImage = File(image.path);
@@ -200,7 +193,6 @@ class _TelaAnotacoesState extends State<TelaAnotacoes> {
         SnackBar(content: Text('Erro ao selecionar imagem: $e')),
       );
     } finally {
-      // Fecha a tela de carregamento
       Navigator.pop(context);
     }
   }
@@ -208,8 +200,7 @@ class _TelaAnotacoesState extends State<TelaAnotacoes> {
 
 class TelaImagemCompleta extends StatelessWidget {
   final File imageFile;
-
-  TelaImagemCompleta({required this.imageFile});
+  const TelaImagemCompleta({required this.imageFile});
 
   @override
   Widget build(BuildContext context) {
@@ -221,7 +212,7 @@ class TelaImagemCompleta extends StatelessWidget {
       body: Center(
         child: Image.file(
           imageFile,
-          fit: BoxFit.contain, // Ajusta a imagem ao tamanho da tela
+          fit: BoxFit.contain,
         ),
       ),
     );

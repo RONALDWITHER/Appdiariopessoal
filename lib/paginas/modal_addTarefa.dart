@@ -34,7 +34,7 @@ class _Modal_addTarefaState extends State<Modal_addTarefa> {
               controller: _titulo_da_anotacao,
               decoration: const InputDecoration(hintText: "Título"),
             ),
-            SizedBox(height: 2),
+            const SizedBox(height: 2),
             Flexible(
               child: TextField(
                 controller: _texto_da_anotacao,
@@ -119,12 +119,10 @@ class _Modal_addTarefaState extends State<Modal_addTarefa> {
                   );
                   Navigator.pop(context);
                 } catch (e) {
-                  // Mostra mensagem de erro
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text('Erro ao salvar anotação: $e')),
                   );
                 } finally {
-                  // Fecha a tela de carregamento
                   Navigator.pop(context);
                 }
               },
@@ -133,7 +131,7 @@ class _Modal_addTarefaState extends State<Modal_addTarefa> {
               ),
               child: const Text('Salvar Anotação',
                   style: TextStyle(
-                    color: Colors.white,
+                    color: Color.fromARGB(255, 255, 255, 255),
                   )),
             ),
           ],
@@ -145,8 +143,7 @@ class _Modal_addTarefaState extends State<Modal_addTarefa> {
   void _showLoadingDialog(BuildContext context) {
     showDialog(
       context: context,
-      barrierDismissible:
-          false, // Impede que o usuário feche o diálogo manualmente
+      barrierDismissible: false,
       builder: (BuildContext context) {
         return Center(
           child: CircularProgressIndicator(),
@@ -197,7 +194,7 @@ class TelaImagemCompleta extends StatelessWidget {
       body: Center(
         child: Image.file(
           imageFile,
-          fit: BoxFit.contain, // Ajusta a imagem ao tamanho da tela
+          fit: BoxFit.contain,
         ),
       ),
     );

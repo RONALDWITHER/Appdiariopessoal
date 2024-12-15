@@ -30,20 +30,21 @@ class _CalendarioState extends State<Calendario> {
         title: const Text(
           'Diário Pessoal',
           style: TextStyle(
-            color: Colors.white,
+            color: Color.fromARGB(255, 250, 248, 248),
             fontWeight: FontWeight.w500,
           ),
         ),
         centerTitle: true,
         backgroundColor: const Color(0xFF32CD99),
-        iconTheme: const IconThemeData(color: Colors.white),
+        iconTheme:
+            const IconThemeData(color: Color.fromARGB(255, 246, 243, 243)),
         actions: [
           IconButton(
               onPressed: () {
                 Navigator.of(context).pushReplacement(
                     MaterialPageRoute(builder: (context) => Telainicial()));
               },
-              icon: Icon(Icons.home))
+              icon: const Icon(Icons.home))
         ],
       ),
       drawer: DrawerTelainicial(user: user?.displayName ?? 'Usuário'),
@@ -108,16 +109,6 @@ class DiaDetalhado extends StatelessWidget {
               },
               icon: const Icon(Icons.calendar_today),
               label: const Text('Agenda'),
-              style: ElevatedButton.styleFrom(
-                foregroundColor: const Color.fromARGB(255, 235, 235, 235),
-                backgroundColor: const Color(0xFF32CD99),
-              ),
-            ),
-            const SizedBox(height: 10),
-            ElevatedButton.icon(
-              onPressed: () {},
-              icon: const Icon(Icons.note),
-              label: const Text('Anotações'),
               style: ElevatedButton.styleFrom(
                 foregroundColor: const Color.fromARGB(255, 235, 235, 235),
                 backgroundColor: const Color(0xFF32CD99),
@@ -253,7 +244,8 @@ class _TelaLembretesState extends State<TelaLembretes> {
                       '$horario (${dataLocal.day}/${dataLocal.month}/${dataLocal.year})'),
                   subtitle: Text(anotacao),
                   trailing: IconButton(
-                    icon: const Icon(Icons.delete, color: Colors.red),
+                    icon: const Icon(Icons.delete,
+                        color: Color.fromARGB(255, 244, 67, 54)),
                     onPressed: () =>
                         _lembreteServico.deletarLembrete(lembrete.id),
                   ),
@@ -268,7 +260,7 @@ class _TelaLembretesState extends State<TelaLembretes> {
           _adicionarAnotacao(widget.dataSelecionada);
         },
         backgroundColor: const Color(0xFF32CD99),
-        child: const Icon(Icons.add, color: Colors.white),
+        child: const Icon(Icons.add, color: Color.fromARGB(255, 255, 255, 255)),
       ),
     );
   }

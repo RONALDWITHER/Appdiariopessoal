@@ -59,17 +59,19 @@ class _DrawerTelainicialState extends State<DrawerTelainicial> {
             },
           ),
           ListTile(
-              leading: const Icon(Icons.dark_mode),
-              title: const Text('Alternar Tema'),
-              trailing: Switch(
-                value: themeNotifier.value == ThemeMode.dark,
-                onChanged: (bool value) {
-                  setState(() {
-                    themeNotifier.value =
-                        value ? ThemeMode.dark : ThemeMode.light;
-                  });
-                },
-              )),
+            leading: Icon(
+              themeNotifier.value == ThemeMode.dark
+                  ? Icons.nightlight_round
+                  : Icons.wb_sunny,
+            ),
+            title: const Text('Alternar Tema'),
+            trailing: Switch(
+              value: themeNotifier.value == ThemeMode.dark,
+              onChanged: (bool value) async {
+                await toggleTheme(value);
+              },
+            ),
+          ),
           ListTile(
             leading: const Icon(Icons.exit_to_app),
             title: const Text('Sair'),
@@ -77,7 +79,7 @@ class _DrawerTelainicialState extends State<DrawerTelainicial> {
               Navigator.pop(context);
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => const telaDelogin()),
+                MaterialPageRoute(builder: (context) => const TeladeLogin()),
               );
             },
           ),
