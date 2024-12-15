@@ -71,7 +71,7 @@ git clone https://github.com/RONALDWITHER/Appdiariopessoal.git
 Após clonar aperte a tecla (F5) para rodar a aplicação
 
 ...
-## Como rodar os testes :mag:
+## Como rodar os testes :mag_right:
 
 -Instale todos os componentes dos Pré-Requisitos
 
