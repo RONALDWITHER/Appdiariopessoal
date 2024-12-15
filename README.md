@@ -47,7 +47,6 @@ O Life Log é o lugar ideal para guardar suas memórias e manter sua rotina orga
 > Link do deploy da aplicação: https://certificates-for-everyone-womakerscode.netlify.app/
 
 ... 
-
 Se ainda não houver deploy, insira capturas de tela da aplicação ou gifs
 
 ## Pré-Requisitos
@@ -63,7 +62,6 @@ Se ainda não houver deploy, insira capturas de tela da aplicação ou gifs
 :warning: [Java Development Kit](https://www.oracle.com/java/technologies/downloads/)
 
 ...
-
 ## Como rodar a aplicação :arrow_forward:
 
 No terminal, clone o projeto: 
@@ -75,7 +73,6 @@ git clone https://github.com/RONALDWITHER/Appdiariopessoal.git
 Após clonar aperte a tecla (F5) para rodar a aplicação
 
 ...
-
 ## Como rodar os testes
 
 Coloque um passo a passo para executar os testes
@@ -117,9 +114,6 @@ Fluxo Principal:
 - [Firebase](https://firebase.google.com)
 
 ...
-
-Liste as tecnologias utilizadas no projeto que **não** forem reconhecidas pelo Github 
-
 ## Resolvendo Problemas :exclamation:
 
 Em [issues]() foram abertos alguns problemas gerados durante o desenvolvimento desse projeto e como foram resolvidos. 
