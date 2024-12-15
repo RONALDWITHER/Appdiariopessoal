@@ -57,6 +57,10 @@ Se ainda não houver deploy, insira capturas de tela da aplicação ou gifs
 
 :warning: [Flutter](https://www.flutter.dev)
 
+:warning: [Gradle](https://gradle.org)
+
+:warning: [Java Development Kit]
+
 ...
 
 ## Como rodar a aplicação :arrow_forward:
