@@ -144,7 +144,7 @@ Se for o caso, liste tarefas/funcionalidades que ainda precisam ser implementada
 ## Desenvolvedores/Contribuintes :octocat:
 
 
-| [<img src="https://avatars.githubusercontent.com/u/190425553?v=4" width=115><br><sub>Nichole Solia</sub>](https://github.com/nickSolia) |  [<img src="https://avatars.githubusercontent.com/u/165350183?v=4" width=115><br><sub>Jean Lucas</sub>](https://github.com/jeanPersil) |  [<img src="https://avatars.githubusercontent.com/u/160983221?v=4" width=115><br><sub>Erick Carvalho</sub>](https://github.com/ErickDotZip) | [<img src="https://avatars.githubusercontent.com/u/187022353?v=4" width=115><br><sub>Jean Lucas</sub>](https://github.com/RONALDWITHER) | [<img src="https://avatars.githubusercontent.com/u/187021765?v=4" width=115><br><sub>Jean Lucas</sub>](https://github.com/felipekek) |
+| [<img src="https://avatars.githubusercontent.com/u/190425553?v=4" width=115><br><sub>Nichole Solia</sub>](https://github.com/nickSolia) |  [<img src="https://avatars.githubusercontent.com/u/165350183?v=4" width=115><br><sub>Jean Lucas</sub>](https://github.com/jeanPersil) |  [<img src="https://avatars.githubusercontent.com/u/160983221?v=4" width=115><br><sub>Erick Carvalho</sub>](https://github.com/ErickDotZip) | [<img src="https://avatars.githubusercontent.com/u/187022353?v=4" width=115><br><sub>Ronald</sub>](https://github.com/RONALDWITHER) | [<img src="https://avatars.githubusercontent.com/u/187021765?v=4" width=115><br><sub>Luis Felipe</sub>](https://github.com/felipekek) |
 | :---: | :---: | :---: | :---: | :---:
 
 ## Licença 
