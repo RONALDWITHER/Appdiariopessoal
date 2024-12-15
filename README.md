@@ -80,8 +80,14 @@ Após clonar aperte a tecla (F5) para rodar a aplicação
 
 Coloque um passo a passo para executar os testes
 
+
+-Instale todos os componentes dos Pré-Requisitos
+-Escolha o dispositivo de debug (Fortemente indicado um emulador Android)
+
+
+Em seguida no terminal, cole o comando: 
 ```
-$ npm test, rspec, etc 
+flutter run
 ```
 
 ## Casos de Uso
