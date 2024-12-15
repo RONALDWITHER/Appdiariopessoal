@@ -109,22 +109,7 @@ Fluxo Principal:
 
 4 - O sistema valida as informações e redireciona o usuário para a tela inicial.
 
-## JSON :floppy_disk:
-
-### Usuários: 
-
-|name|email|password|token|avatar|
-| -------- |-------- |-------- |-------- |-------- |
-|Lais Lima|laislima98@hotmail.com|lais123|true|https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcS9-U_HbQAipum9lWln3APcBIwng7T46hdBA42EJv8Hf6Z4fDT3&usqp=CAU|
-
-... 
-
-Se quiser, coloque uma amostra do banco de dados 
-
-## Iniciando/Configurando banco de dados
-
-Se for necessário configurar algo antes de iniciar o banco de dados insira os comandos a serem executados 
-
+...
 ## Linguagens, dependencias e libs utilizadas :books:
 
 - [Flutter](https://www.flutter.dev)
