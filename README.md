@@ -110,7 +110,7 @@ Fluxo Principal:
 ## Linguagens, dependencias e libs utilizadas :books:
 
 - [Flutter](https://www.flutter.dev)
-- Dart
+- [Dart](https://www.flutter.dev)
 - [Firebase](https://firebase.google.com)
 - [Gradle](https://gradle.org)
 
