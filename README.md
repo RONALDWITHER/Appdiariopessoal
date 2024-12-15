@@ -2,7 +2,7 @@
 
 <p align="center">
   <img alt="Static Badge" src="https://img.shields.io/badge/framework-blue?style=for-the-badge&logo=flutter&logoColor=blue&label=flutter&labelColor=black">
-  <img alt="Static Badge" src="https://img.shields.io/badge/database-blue?style=for-the-badge&logo=firebase&logoColor=#DD2C00&label=firebase&labelColor=black">
+  <img alt="Static Badge" src="https://img.shields.io/badge/database-blue?style=for-the-badge&logo=firebase&logoColor=red&label=firebase&labelColor=black">
   <img alt="Static Badge" src="https://img.shields.io/badge/gradle-black?style=for-the-badge&logo=Gradle&logoColor=%2302303A">
   <img alt="Static Badge" src="https://img.shields.io/badge/3.7.0--232.0-blue?style=for-the-badge&logo=dart&logoColor=blue&label=dart&labelColor=black">
   <img alt="Static Badge" src="https://img.shields.io/badge/%3E50-blue?style=for-the-badge&label=testes&labelColor=black">
