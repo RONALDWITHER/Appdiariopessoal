@@ -69,10 +69,7 @@ class AnotacaoServico {
           .collection('anotacoes')
           .doc(anotacao.id)
           .delete();
-
-      print('Anotação e imagem excluídas com sucesso.');
     } catch (e) {
-      print('Erro ao excluir anotação ou imagem: $e');
       throw Exception('Erro ao excluir a anotação ou a imagem: $e');
     }
   }

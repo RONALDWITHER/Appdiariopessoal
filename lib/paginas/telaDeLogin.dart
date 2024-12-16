@@ -118,12 +118,14 @@ class _telaDeloginState extends State<TeladeLogin> {
                                   ScaffoldMessenger.of(context)
                                       .showSnackBar(SnackBar(
                                     content: Text(value),
-                                    backgroundColor: Colors.red,
+                                    backgroundColor:
+                                        const Color.fromARGB(255, 244, 67, 54),
                                   ));
                                 } else {
                                   Navigator.of(context).pushReplacement(
                                       MaterialPageRoute(
-                                          builder: (context) => Telainicial()));
+                                          builder: (context) =>
+                                              const Telainicial()));
                                 }
                               });
                             },
@@ -132,7 +134,7 @@ class _telaDeloginState extends State<TeladeLogin> {
                             child: const Text(
                               'Entrar',
                               style: TextStyle(
-                                  color: Colors.white,
+                                  color: Color.fromARGB(255, 255, 255, 255),
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600),
                             ),
@@ -155,7 +157,8 @@ class _telaDeloginState extends State<TeladeLogin> {
                                 } else {
                                   Navigator.of(context).pushReplacement(
                                     MaterialPageRoute(
-                                        builder: (context) => Telainicial()),
+                                        builder: (context) =>
+                                            const Telainicial()),
                                   );
                                 }
                               });
@@ -173,7 +176,7 @@ class _telaDeloginState extends State<TeladeLogin> {
                                 const Text(
                                   "Login com o Google",
                                   style: TextStyle(
-                                    color: Colors.white,
+                                    color: Color.fromARGB(255, 255, 255, 255),
                                     fontSize: 16,
                                     fontWeight: FontWeight.w600,
                                   ),
@@ -196,7 +199,8 @@ class _telaDeloginState extends State<TeladeLogin> {
                                 },
                                 child: const Text(
                                   "Cadastrar",
-                                  style: TextStyle(color: Colors.blue),
+                                  style: TextStyle(
+                                      color: Color.fromARGB(255, 33, 150, 243)),
                                 ),
                               )
                             ],
@@ -213,7 +217,8 @@ class _telaDeloginState extends State<TeladeLogin> {
                             },
                             child: const Text(
                               "Esqueci a senha",
-                              style: TextStyle(color: Colors.blue),
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 33, 150, 243)),
                             ),
                           ),
                         ],

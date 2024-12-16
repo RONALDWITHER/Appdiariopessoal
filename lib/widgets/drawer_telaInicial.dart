@@ -3,6 +3,7 @@ import 'package:appdiario/paginas/telaDeLogin.dart';
 import 'package:appdiario/paginas/telainicial.dart';
 import 'package:flutter/material.dart';
 import 'package:appdiario/main.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class DrawerTelainicial extends StatefulWidget {
   final String user;
@@ -14,6 +15,8 @@ class DrawerTelainicial extends StatefulWidget {
 
 class _DrawerTelainicialState extends State<DrawerTelainicial> {
   @override
+  final user = FirebaseAuth.instance.currentUser;
+
   Widget build(BuildContext context) {
     return Drawer(
       child: ListView(
@@ -21,18 +24,34 @@ class _DrawerTelainicialState extends State<DrawerTelainicial> {
         children: <Widget>[
           DrawerHeader(
             decoration: const BoxDecoration(
-              color: Color(0xFF32CD99),
+              gradient: LinearGradient(
+                colors: [Color(0xFF32CD99), Color(0xFF008080)],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
             ),
+            padding: EdgeInsets.only(bottom: 20), // Ajusta o tamanho
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text(
-                  'Menu',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                  ),
+                CircleAvatar(
+                  radius: 40,
+                  backgroundImage: user?.photoURL != null
+                      ? NetworkImage(user!.photoURL!)
+                      : const AssetImage('assets/profile_placeholder.png')
+                          as ImageProvider,
+                  backgroundColor: Colors.white,
                 ),
-                Text('Bem-vindo, ${widget.user}'),
+                const SizedBox(height: 5),
+                Text(
+                  'Bem-vindo, ${widget.user}',
+                  style: const TextStyle(
+                    color: Colors.white70,
+                    fontSize: 16,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ],
             ),
           ),
@@ -43,7 +62,7 @@ class _DrawerTelainicialState extends State<DrawerTelainicial> {
               Navigator.pop(context);
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => Telainicial()),
+                MaterialPageRoute(builder: (context) => const Telainicial()),
               );
             },
           ),
@@ -54,7 +73,7 @@ class _DrawerTelainicialState extends State<DrawerTelainicial> {
               Navigator.pop(context);
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => Calendario()),
+                MaterialPageRoute(builder: (context) => const Calendario()),
               );
             },
           ),

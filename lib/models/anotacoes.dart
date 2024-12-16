@@ -18,7 +18,7 @@ class Anotacoes {
         texto_da_anotacao = map['texto_da_anotacao'] ?? '',
         dataHorario = map['DataHorario'] != null
             ? DateTime.parse(map['DataHorario'])
-            : DateTime.now(), // Define um valor padrão
+            : DateTime.now(),
         urlImagem = map['urlImagem'];
   Map<String, dynamic> toMap() {
     return {

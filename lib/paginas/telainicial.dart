@@ -109,7 +109,7 @@ class _TelainicialState extends State<Telainicial> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => TelaAnotacoes()),
+            MaterialPageRoute(builder: (context) => const TelaAnotacoes()),
           );
         },
         backgroundColor: const Color(0xFF32CD99),

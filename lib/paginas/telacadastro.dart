@@ -24,7 +24,9 @@ class _TelacadastroState extends State<Telacadastro> {
         final isDarkMode = currentTheme == ThemeMode.dark;
 
         return Scaffold(
-          backgroundColor: isDarkMode ? Colors.black : Colors.white,
+          backgroundColor: isDarkMode
+              ? const Color.fromARGB(255, 0, 0, 0)
+              : const Color.fromARGB(255, 255, 255, 255),
           body: SingleChildScrollView(
             child: ConstrainedBox(
               constraints: BoxConstraints(
@@ -44,7 +46,9 @@ class _TelacadastroState extends State<Telacadastro> {
                       ),
                       Container(
                         decoration: BoxDecoration(
-                          color: isDarkMode ? Colors.black : Colors.white,
+                          color: isDarkMode
+                              ? const Color.fromARGB(255, 0, 0, 0)
+                              : const Color.fromARGB(255, 255, 255, 255),
                           borderRadius: BorderRadius.circular(30),
                         ),
                         child: Padding(
@@ -68,18 +72,21 @@ class _TelacadastroState extends State<Telacadastro> {
                                   hintText: "Thayane",
                                   labelStyle: TextStyle(
                                     color: isDarkMode
-                                        ? Colors.white
-                                        : Colors.black,
+                                        ? const Color.fromARGB(
+                                            255, 247, 245, 245)
+                                        : const Color.fromARGB(255, 12, 12, 12),
                                   ),
                                   hintStyle: TextStyle(
                                     color: isDarkMode
-                                        ? Colors.white
-                                        : Colors.black,
+                                        ? const Color.fromARGB(
+                                            255, 255, 255, 255)
+                                        : const Color.fromARGB(255, 0, 0, 0),
                                   ),
                                 ),
                                 style: TextStyle(
-                                  color:
-                                      isDarkMode ? Colors.white : Colors.black,
+                                  color: isDarkMode
+                                      ? const Color.fromARGB(255, 255, 255, 255)
+                                      : const Color.fromARGB(255, 11, 11, 11),
                                 ),
                               ),
                               const SizedBox(height: 15),
@@ -90,18 +97,21 @@ class _TelacadastroState extends State<Telacadastro> {
                                   hintText: "emailexemplo@gmail.com",
                                   labelStyle: TextStyle(
                                     color: isDarkMode
-                                        ? Colors.white
-                                        : Colors.black,
+                                        ? const Color.fromARGB(
+                                            255, 255, 255, 255)
+                                        : const Color.fromARGB(255, 11, 11, 11),
                                   ),
                                   hintStyle: TextStyle(
                                     color: isDarkMode
-                                        ? Colors.white
-                                        : Colors.black,
+                                        ? const Color.fromARGB(
+                                            255, 248, 246, 246)
+                                        : const Color.fromARGB(255, 0, 0, 0),
                                   ),
                                 ),
                                 style: TextStyle(
-                                  color:
-                                      isDarkMode ? Colors.white : Colors.black,
+                                  color: isDarkMode
+                                      ? const Color.fromARGB(255, 255, 255, 255)
+                                      : const Color.fromARGB(255, 11, 11, 11),
                                 ),
                               ),
                               const SizedBox(height: 15),
@@ -144,7 +154,7 @@ class _TelacadastroState extends State<Telacadastro> {
                                       Navigator.of(context).pushReplacement(
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                Telainicial()),
+                                                const Telainicial()),
                                       );
                                     }
                                   });
@@ -157,12 +167,14 @@ class _TelacadastroState extends State<Telacadastro> {
                                   children: [
                                     Icon(
                                       Icons.app_registration,
-                                      color: Colors.white,
+                                      color: Color.fromARGB(255, 245, 245, 245),
                                     ),
                                     SizedBox(width: 8),
                                     Text(
                                       'Registrar',
-                                      style: TextStyle(color: Colors.white),
+                                      style: TextStyle(
+                                          color: Color.fromARGB(
+                                              255, 254, 253, 253)),
                                     ),
                                   ],
                                 ),
@@ -183,7 +195,7 @@ class _TelacadastroState extends State<Telacadastro> {
                                       Navigator.of(context).pushReplacement(
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                Telainicial()),
+                                                const Telainicial()),
                                       );
                                     }
                                   });
@@ -217,8 +229,10 @@ class _TelacadastroState extends State<Telacadastro> {
                                     'Já tem uma conta?',
                                     style: TextStyle(
                                       color: isDarkMode
-                                          ? Colors.white
-                                          : Colors.black,
+                                          ? const Color.fromARGB(
+                                              255, 255, 255, 255)
+                                          : const Color.fromARGB(
+                                              255, 19, 19, 19),
                                     ),
                                   ),
                                   TextButton(
@@ -231,7 +245,9 @@ class _TelacadastroState extends State<Telacadastro> {
                                     },
                                     child: const Text(
                                       "Entrar",
-                                      style: TextStyle(color: Colors.blue),
+                                      style: TextStyle(
+                                          color: Color.fromARGB(
+                                              255, 33, 150, 243)),
                                     ),
                                   )
                                 ],

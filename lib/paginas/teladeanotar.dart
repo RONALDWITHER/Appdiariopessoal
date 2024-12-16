@@ -150,7 +150,7 @@ class _TelaAnotacoesState extends State<TelaAnotacoes> {
           backgroundColor: const Color(0xFF32CD99),
           label: const Text(
             'Salvar anotação',
-            style: TextStyle(color: const Color.fromARGB(255, 255, 255, 255)),
+            style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
           )),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
@@ -161,7 +161,7 @@ class _TelaAnotacoesState extends State<TelaAnotacoes> {
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
-        return Center(
+        return const Center(
           child: CircularProgressIndicator(),
         );
       },
@@ -178,7 +178,7 @@ class _TelaAnotacoesState extends State<TelaAnotacoes> {
         maxHeight: 2000,
         maxWidth: 2000,
       );
-      await Future.delayed(Duration(seconds: 2));
+      await Future.delayed(const Duration(seconds: 2));
       if (image != null) {
         setState(() {
           _selectedImage = File(image.path);
