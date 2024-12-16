@@ -176,7 +176,7 @@ class _telaDeloginState extends State<TeladeLogin> {
                                 const Text(
                                   "Login com o Google",
                                   style: TextStyle(
-                                    color: Color.fromARGB(255, 255, 255, 255),
+                                    color: Colors.black,
                                     fontSize: 16,
                                     fontWeight: FontWeight.w600,
                                   ),

@@ -179,6 +179,7 @@ class _TelacadastroState extends State<Telacadastro> {
                                   ],
                                 ),
                               ),
+                              const SizedBox(height: 15),
                               ElevatedButton(
                                 onPressed: () {
                                   _autenticacaoServicos
@@ -213,7 +214,7 @@ class _TelacadastroState extends State<Telacadastro> {
                                     const Text(
                                       "Cadastrar com o Google",
                                       style: TextStyle(
-                                        color: Colors.white,
+                                        color: Colors.black,
                                         fontSize: 16,
                                         fontWeight: FontWeight.w600,
                                       ),

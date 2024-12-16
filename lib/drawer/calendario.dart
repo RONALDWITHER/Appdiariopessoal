@@ -82,7 +82,9 @@ class DiaDetalhado extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Detalhes do Dia'),
+        title: const Text('Detalhes do Dia',
+            style: TextStyle(color: Colors.white)),
+        centerTitle: true,
         backgroundColor: const Color(0xFF32CD99),
       ),
       body: Padding(
@@ -208,7 +210,8 @@ class _TelaLembretesState extends State<TelaLembretes> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Lembretes'),
+        title: const Text('Lembretes', style: TextStyle(color: Colors.white)),
+        centerTitle: true,
         backgroundColor: const Color(0xFF32CD99),
       ),
       body: StreamBuilder<QuerySnapshot>(
@@ -262,6 +265,7 @@ class _TelaLembretesState extends State<TelaLembretes> {
         backgroundColor: const Color(0xFF32CD99),
         child: const Icon(Icons.add, color: Color.fromARGB(255, 255, 255, 255)),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
@@ -352,11 +356,16 @@ class _AgendaScreenState extends State<AgendaScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-            'Agenda - ${widget.dataSelecionada.day}/${widget.dataSelecionada.month}/${widget.dataSelecionada.year}'),
+            'Agenda - ${widget.dataSelecionada.day}/${widget.dataSelecionada.month}/${widget.dataSelecionada.year}',
+            style: TextStyle(color: Colors.white)),
+        centerTitle: true,
         backgroundColor: const Color(0xFF32CD99),
         actions: [
           IconButton(
-            icon: const Icon(Icons.save),
+            icon: const Icon(
+              Icons.save,
+              color: Colors.white,
+            ),
             onPressed: _salvarAnotacoes,
           ),
         ],
@@ -388,11 +397,25 @@ class _AgendaScreenState extends State<AgendaScreen> {
                         ),
                       ),
                       IconButton(
-                        icon: const Icon(Icons.delete),
-                        onPressed: () {
+                        icon: const Icon(
+                          Icons.delete,
+                          color: Colors.red,
+                        ),
+                        onPressed: () async {
                           setState(() {
                             _controllers[horario]?.clear();
                           });
+
+                          final docRef = _firestore.collection('agendas').doc(
+                              '${widget.dataSelecionada.toIso8601String()}');
+
+                          await docRef.update({horario: FieldValue.delete()});
+
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                                content:
+                                    Text('Compromisso de $horario excluído!')),
+                          );
                         },
                       ),
                     ],

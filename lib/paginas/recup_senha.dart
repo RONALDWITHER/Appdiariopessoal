@@ -37,8 +37,12 @@ class _TelaRecuperacaoSenhaState extends State<TelaRecuperacaoSenha> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Recuperar Senha"),
+        title: const Text(
+          "Recuperar Senha",
+          style: TextStyle(color: Colors.white),
+        ),
         backgroundColor: const Color(0xFF32CD99),
+        centerTitle: true,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -63,7 +67,10 @@ class _TelaRecuperacaoSenhaState extends State<TelaRecuperacaoSenha> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF32CD99),
               ),
-              child: const Text('Enviar'),
+              child: const Text(
+                'Enviar',
+                style: TextStyle(color: Colors.white),
+              ),
             ),
           ],
         ),
